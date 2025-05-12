@@ -13,9 +13,10 @@ GameObject:
   - component: {fileID: -6468118150006908170}
   - component: {fileID: -2307339053570740559}
   - component: {fileID: 6971861840916958811}
+  - component: {fileID: -5782319541016839703}
   m_Layer: 0
   m_Name: Enemy_Level1
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -78,7 +79,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_Sprite: {fileID: 4723107735738678597, guid: d063c1f49ce879a42b7dc83c4c99368b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -167,3 +168,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: -6468118150006908170}
   moveSpeed: 2
+--- !u!114 &-5782319541016839703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7013778372568217233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98d016b6e504ab04291add266673ac16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 50
+  xpValue: 100
+  player: {fileID: 0}

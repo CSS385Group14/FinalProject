@@ -24,6 +24,6 @@ public class LevelManager : MonoBehaviour
     }
 
     public void gameOver() {
-        Debug.Log("Game over");
+        Debug.Log("Game Over!");
     }
 }

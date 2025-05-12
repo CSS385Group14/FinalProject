@@ -2,7 +2,10 @@ using UnityEngine;
 
 public class Barricade : MonoBehaviour
 {
+    public Vector2 direction;
+
     public float health = 10;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -15,8 +18,11 @@ public class Barricade : MonoBehaviour
         
     }
 
-    void OnTriggerEnter2D(Collider2D collision)
-    {
-        Debug.Log("Barricade touched");
+    public void TakeDamage(int damage) {
+        health -= damage;
+
+        if(health <= 0) {
+            Destroy(gameObject);
+        }
     }
 }

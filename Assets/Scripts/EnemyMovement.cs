@@ -1,6 +1,5 @@
-using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
+using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
 {
@@ -12,6 +11,8 @@ public class EnemyMovement : MonoBehaviour
 
     private Transform target;
     private int pathIndex = 0;  
+    public float attackCooldown = 0.2f;
+    private bool isStopped = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -40,25 +41,28 @@ public class EnemyMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        Vector2 direction = (target.position - transform.position).normalized;
-        rb.linearVelocity = direction * moveSpeed;
+        if (!isStopped) {
+            Vector2 direction = (target.position - transform.position).normalized;
+            rb.linearVelocity = direction * moveSpeed;
+        } else {
+            rb.linearVelocity = Vector2.zero;
+        }
     }
 
-    void OnTriggerEnter2D(Collider2D collision)
-    {
-        //Is this a barricade that touched me?
-        Barricade barricade = collision.GetComponent<Barricade>();
-        if (barricade != null)
-        {
-            Debug.Log("Barricade reached");
-            //stopped = true;
+    // Attack when barricade is reached (Placeholder code)
+    void OnTriggerEnter2D(Collider2D collision) {
+        if (collision.gameObject.CompareTag("Wall")) {
+            isStopped = true;
+            StartCoroutine(AttackBarricade(collision.gameObject.GetComponent<Barricade>()));
         }
+    }
 
-        //Is this a bullet?
-        Bullet bullet = collision.GetComponent<Bullet>();
-        if (bullet != null)
-        {
-            Debug.Log("Hit by bullet");
-        }
+    private IEnumerator AttackBarricade(Barricade barricade) {
+    while (barricade != null && barricade.health > 0) {
+        barricade.TakeDamage(2);
+        yield return new WaitForSeconds(attackCooldown); // wait in between attacks
+    }
+
+        isStopped = false;
     }
 }
