@@ -13,45 +13,70 @@ public class EnemyMovement : MonoBehaviour
     public int playerDamageValue = 5; // how much damage it deals to the player
     private Transform target;
     private float nextFireTime = 0f;
+    private Transform[] path;
     private int pathIndex = 0;  
     private MainTower mainTower;
-    
     private bool isStopped = false;
+    public bool lockedInCombat = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        target = LevelManager.main.path[pathIndex];
         mainTower = GameObject.Find("Tower").GetComponent<MainTower>();
+    }
+
+    public void InitPath(Transform[] pathArray)
+    {
+        path = pathArray;
+        pathIndex = 0;
+
+        if (path.Length > 0)
+        {
+            transform.position = path[0].position;
+            target = path[1];
+            pathIndex = 1;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Vector2.Distance(target.position, transform.position) <= 0.1f)
+        if (path == null || target == null || isStopped) return;
+
+        if (Vector2.Distance(transform.position, target.position) <= 0.1f)
         {
             pathIndex++;
-            if (pathIndex == LevelManager.main.path.Length)
+            if (pathIndex >= path.Length)
             {
-                EnemySpawner.onEnemyDestroy.Invoke();
+                EnemySpawner.onEnemyDestroy?.Invoke();
                 Destroy(gameObject);
                 return;
             }
-            else
-            {
-                target = LevelManager.main.path[pathIndex];
-            }
+
+            target = path[pathIndex];
+        }
+    }
+    public void StopMovement(bool stop)
+    {
+        isStopped = stop;
+        if (stop)
+        {
+            rb.linearVelocity = Vector2.zero;
         }
     }
 
     void FixedUpdate()
     {
-        if (!isStopped) {
-            Vector2 direction = (target.position - transform.position).normalized;
-            rb.linearVelocity = direction * moveSpeed;
-        } else {
-            rb.linearVelocity = Vector2.zero;
+        if (isStopped)
+        {
+            rb.linearVelocity = Vector2.zero; // Ensure it stays zero every frame while stopped
+            return;
         }
+
+        if (target == null || path == null) return;
+
+        Vector2 direction = ((Vector2)target.position - rb.position).normalized;
+        rb.linearVelocity = direction * moveSpeed;
     }
 
     // Attack when barricade is reached (Placeholder code)

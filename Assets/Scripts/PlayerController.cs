@@ -9,13 +9,13 @@ public class PlayerController : MonoBehaviour
     public GameObject barricadePrefabSide;
     public float speed = 5f;
     public bool isPlayerOne = true;
+    public bool isDead = false;
     public int playerXP = 0;
     public int playerHP = 100;
     public int level = 1;
     private GameManager gameManager;
     private Vector2 lastMoveDirection;
     private int playerNumber;
-    private bool isDead = false;
     private float horizontalInput;
     private float verticalInput;
 
@@ -45,7 +45,7 @@ public class PlayerController : MonoBehaviour
         {
             gameManager.playersAlive--;
 
-            // set active the death indicator
+            // show death indicator
             transform.Find("DeathIndicator").gameObject.SetActive(true);
 
             // disable this player's controls
@@ -133,7 +133,7 @@ public class PlayerController : MonoBehaviour
     private void FireProjectile()
     {
         // mark the projectile with the player's number
-        Projectile playerProjectile = projectilePrefab.GetComponent<Projectile>();
+        PlayerProjectile playerProjectile = projectilePrefab.GetComponent<PlayerProjectile>();
         playerProjectile.projectileOwner = playerNumber;
 
         // shoot projectile toward the last move direction

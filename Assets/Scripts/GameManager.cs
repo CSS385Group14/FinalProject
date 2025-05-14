@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     public GameObject playerTwoPrefab;
     public bool isCoopEnabled = false; // track coop state
     public bool gameEnd = false; // track game state
+    public bool gameStart = false;
     public int p1SpawnX = -1; // player 1's x-spawn position
     public int p1SpawnY = -8; // player 1's y-spawn position
     public int p2SpawnX = 1; // player 2's x-spawn position
@@ -17,6 +18,7 @@ public class GameManager : MonoBehaviour
     private GameObject mainMenu;
     private GameObject player1UI;
     private GameObject player2UI;
+    private GameObject towerUI;
     private GameObject waveInfo;
     private GameObject gameOverUI;
     private EnemySpawner enemySpawner;
@@ -33,6 +35,7 @@ public class GameManager : MonoBehaviour
         mainMenu = GameObject.Find("MainMenu"); // parent of buttons, title, player 1 & 2 UI
         player1UI = GameObject.Find("Player1UI"); // parent of xp and level counter text game objects
         player2UI = GameObject.Find("Player2UI");
+        towerUI = GameObject.Find("TowerUI");
         waveInfo = GameObject.Find("WaveInfo"); // parent of wave count and enemy count text
         gameOverUI = GameObject.Find("GameOverUI");
 
@@ -45,11 +48,13 @@ public class GameManager : MonoBehaviour
         sceneObjects.SetActive(false);
         player1UI.SetActive(false);
         player2UI.SetActive(false);
+        towerUI.SetActive(false);
         waveInfo.SetActive(false);
         gameOverUI.SetActive(false);
 
-        EnableCoop();
-        StartGame(); //delete
+        // // skip menu
+        // EnableCoop();
+        // StartGame(); 
     }
 
     // Update is called once per frame
@@ -67,6 +72,7 @@ public class GameManager : MonoBehaviour
         mainMenu.SetActive(false);
         sceneObjects.SetActive(true);
         player1UI.SetActive(true);
+        towerUI.SetActive(true);
         waveInfo.SetActive(true);
 
         // instantiate player 1
@@ -87,6 +93,7 @@ public class GameManager : MonoBehaviour
         // start checking for xp, level updates
         enemySpawner.BeginSpawning();
         progManager.BeginLevelCheck();
+        gameStart = true;
     }
 
     public void EndGame()
