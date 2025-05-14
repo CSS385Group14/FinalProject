@@ -16,6 +16,7 @@ public class EnemySpawner : MonoBehaviour
 
     [Header("Events")]
     public static UnityEvent onEnemyDestroy = new UnityEvent();
+    public GameManager gameManager;
     private int currentWave = 1;
     private float timeSinceLastSpawn;
     private int enemiesAlive;
@@ -31,7 +32,7 @@ public class EnemySpawner : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     private IEnumerator StartWave()
@@ -57,8 +58,8 @@ public class EnemySpawner : MonoBehaviour
     void Update()
     {   
         // only spawn waves once the game is started
-        // check for game start
-        if (gameStarted)
+        // check for game start and if game is ended
+        if (gameStarted && !gameManager.gameEnd)
         {
             if (!isSpawning) {
                 return;

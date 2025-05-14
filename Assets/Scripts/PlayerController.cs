@@ -12,14 +12,17 @@ public class PlayerController : MonoBehaviour
     public int playerXP = 0;
     public int playerHP = 100;
     public int level = 1;
+    private GameManager gameManager;
+    private Vector2 lastMoveDirection;
     private int playerNumber;
+    private bool isDead = false;
     private float horizontalInput;
     private float verticalInput;
-    private Vector2 lastMoveDirection;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         if (isPlayerOne) // is player 1
         {
             playerNumber = 1;
@@ -33,7 +36,23 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // get the right input axes based on player number
+        if (gameManager.gameEnd || isDead) // block player controls if game ended or if dead
+        {
+            return;
+        }
+
+        if (playerHP < 1) // check health
+        {
+            gameManager.playersAlive--;
+
+            // set active the death indicator
+            transform.Find("DeathIndicator").gameObject.SetActive(true);
+
+            // disable this player's controls
+            isDead = true;
+        }
+
+        // get the input axes based on player number
         horizontalInput = Input.GetAxis("HorizontalP" + playerNumber);
         verticalInput = Input.GetAxis("VerticalP" + playerNumber);
         Vector2 moveInput = new Vector2(horizontalInput, verticalInput);
@@ -43,11 +62,15 @@ public class PlayerController : MonoBehaviour
         {
             // get the last move direction for the projectile fired
             lastMoveDirection = moveInput.normalized;
+
+            // rotate sprite to face the movement direction
+            float angle = Mathf.Atan2(lastMoveDirection.y, lastMoveDirection.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.Euler(0, 0, angle - 90);
         }
 
         // interpret player control of the game object
-        transform.Translate(Vector3.right * Time.deltaTime * speed * horizontalInput);
-        transform.Translate(Vector3.up * Time.deltaTime * speed * verticalInput);
+        transform.position += new Vector3(moveInput.x, moveInput.y, 0) * speed * Time.deltaTime;
+
 
         if (isPlayerOne) // player 1 controls
         {
@@ -73,6 +96,12 @@ public class PlayerController : MonoBehaviour
                 PlaceBarricade();
             }
         }
+    }
+
+    public void TakeDamage(int damageTaken)
+    {
+        playerHP -= damageTaken;
+        transform.GetComponent<HealthbarController>().TakePlayerDamage(damageTaken);
     }
 
     public void GainXP(int xpAmount)

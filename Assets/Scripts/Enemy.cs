@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public int health = 100;
-    public int xpValue = 100;
+    public int health = 30; // how much health the enemy has
+    public int xpValue = 100; // amount of xp gained by the player when killed
     public PlayerController player; // do not set in unity!
     private int lastHitPlayer;
 
@@ -16,7 +16,7 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (health < 10)
+        if (health < 1) // check health
         {
             // let the player who killed this enemy receive XP of amount x
             // we add "(Clone)" because the instantiated player game object is a clone of a prefab
