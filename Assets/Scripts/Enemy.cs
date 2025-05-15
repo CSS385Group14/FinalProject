@@ -60,70 +60,72 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
-        if (health < 10)
-        {
-            player = GameObject.Find("Player" + lastHitPlayer + "(Clone)")?.GetComponent<PlayerController>();
-            if (player != null)
+        if (tower != null) {
+            if (health < 10)
             {
-                player.GainXP(xpValue);
-            }
-            EnemySpawner.onEnemyDestroy?.Invoke();
-            Destroy(gameObject);
-            return;
-        }
-
-        if (gameManager.gameStart)
-        {
-            bool isPlayer1Dead;
-            bool isPlayer2Dead = false;
-
-            // find player objects at runtime and get death state
-            player1 = GameObject.Find("Player1(Clone)");     
-            isPlayer1Dead = player1.GetComponent<PlayerController>().isDead;
-            if (gameManager.isCoopEnabled)
-            {
-                player2 = GameObject.Find("Player2(Clone)");
-                isPlayer2Dead = player2.GetComponent<PlayerController>().isDead;
+                player = GameObject.Find("Player" + lastHitPlayer + "(Clone)")?.GetComponent<PlayerController>();
+                if (player != null)
+                {
+                    player.GainXP(xpValue);
+                }
+                EnemySpawner.onEnemyDestroy?.Invoke();
+                Destroy(gameObject);
+                return;
             }
 
-            // === Calculate distances ===
-            float distanceToTower = Vector2.Distance(transform.position, tower.transform.position);
-            float distanceToPlayer1 = Vector2.Distance(transform.position, player1.transform.position);
-            float distanceToPlayer2 = player2 != null ? Vector2.Distance(transform.position, player2.transform.position) : Mathf.Infinity;
+                if (gameManager.gameStart)
+                {
+                    bool isPlayer1Dead;
+                    bool isPlayer2Dead = false;
 
-            // === Range checks ===
-            bool towerInRange = distanceToTower <= detectionRangeTower;
-            bool player1InRange = distanceToPlayer1 <= detectionRangePlayer && Mathf.Abs(transform.position.y - player1.transform.position.y) < 0.5f;
-            bool player2InRange = player2 != null && distanceToPlayer2 <= detectionRangePlayer && Mathf.Abs(transform.position.y - player2.transform.position.y) < 0.5f;
-            
-            bool anyTargetInRange = towerInRange || (player1InRange && !isPlayer1Dead) || (player2InRange && !isPlayer2Dead);
+                    // find player objects at runtime and get death state
+                    player1 = GameObject.Find("Player1(Clone)");
+                    isPlayer1Dead = player1.GetComponent<PlayerController>().isDead;
+                    if (gameManager.isCoopEnabled)
+                    {
+                        player2 = GameObject.Find("Player2(Clone)");
+                        isPlayer2Dead = player2.GetComponent<PlayerController>().isDead;
+                    }
 
-            // === Movement handling ===
-            movement?.StopMovement(anyTargetInRange);
-            movement.lockedInCombat = anyTargetInRange;      
+                    // === Calculate distances ===
+                    float distanceToTower = Vector2.Distance(transform.position, tower.transform.position);
+                    float distanceToPlayer1 = Vector2.Distance(transform.position, player1.transform.position);
+                    float distanceToPlayer2 = player2 != null ? Vector2.Distance(transform.position, player2.transform.position) : Mathf.Infinity;
 
-            // === Targeting priority ===
-            if (towerInRange)
-            {
-                SetTargetToTower();
-                TryShoot(tower);
-            }
-            else if (player1InRange && !isPlayer1Dead)
-            {
-                SetTargetToPlayer1();
-                TryShoot(player1);
-            }
-            else if (player2InRange && !isPlayer2Dead)
-            {
-                SetTargetToPlayer2();
-                TryShoot(player2);
-            }
-            else
-            {
-                currentTarget = null;
-            }
+                    // === Range checks ===
+                    bool towerInRange = distanceToTower <= detectionRangeTower;
+                    bool player1InRange = distanceToPlayer1 <= detectionRangePlayer && Mathf.Abs(transform.position.y - player1.transform.position.y) < 0.5f;
+                    bool player2InRange = player2 != null && distanceToPlayer2 <= detectionRangePlayer && Mathf.Abs(transform.position.y - player2.transform.position.y) < 0.5f;
 
-        }
+                    bool anyTargetInRange = towerInRange || (player1InRange && !isPlayer1Dead) || (player2InRange && !isPlayer2Dead);
+
+                    // === Movement handling ===
+                    //movement?.StopMovement(anyTargetInRange);
+                    movement.lockedInCombat = anyTargetInRange;
+
+                    // === Targeting priority ===
+                    if (towerInRange)
+                    {
+                        SetTargetToTower();
+                        TryShoot(tower);
+                    }
+                    else if (player1InRange && !isPlayer1Dead)
+                    {
+                        SetTargetToPlayer1();
+                        TryShoot(player1);
+                    }
+                    else if (player2InRange && !isPlayer2Dead)
+                    {
+                        SetTargetToPlayer2();
+                        TryShoot(player2);
+                    }
+                    else
+                    {
+                        currentTarget = null;
+                    }
+
+                }
+            }
     }
 
     private void TryShoot(GameObject target)

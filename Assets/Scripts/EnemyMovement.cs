@@ -67,16 +67,27 @@ public class EnemyMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (isStopped)
-        {
-            rb.linearVelocity = Vector2.zero; // Ensure it stays zero every frame while stopped
-            return;
-        }
+        // if (isStopped)
+        // {
+        //     rb.linearVelocity = Vector2.zero; // Ensure it stays zero every frame while stopped
+        //     return;
+        // }
 
         if (target == null || path == null) return;
 
-        Vector2 direction = ((Vector2)target.position - rb.position).normalized;
-        rb.linearVelocity = direction * moveSpeed;
+        // Vector2 direction = ((Vector2)target.position - rb.position).normalized;
+        // rb.linearVelocity = direction * moveSpeed;
+
+        // temp solution
+        if (!isStopped)
+        {
+            Vector2 direction = (target.position - transform.position).normalized;
+            rb.linearVelocity = direction * moveSpeed;
+        }
+        else
+        {
+            rb.linearVelocity = Vector2.zero;
+        }
     }
 
     // Attack when barricade is reached (Placeholder code)

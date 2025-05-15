@@ -11,8 +11,10 @@ GameObject:
   - component: {fileID: 860526378039296382}
   - component: {fileID: 6401485898435374081}
   - component: {fileID: 1169733273564115070}
+  - component: {fileID: 3906608075142345792}
+  - component: {fileID: 7033314562142853723}
   m_Layer: 0
-  m_Name: Tower
+  m_Name: Tower_dst
   m_TagString: Tower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -134,3 +136,30 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 14.34, y: 11.74}
   m_EdgeRadius: 0
+--- !u!114 &3906608075142345792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4772713197407704958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96e4c0340735fa24ca82273ac880d076, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  towerMaxHealth: 50
+  towerCurrentHealth: 0
+--- !u!114 &7033314562142853723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4772713197407704958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da0867f2fdbc920499f72dc885338718, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  towerHP: 50

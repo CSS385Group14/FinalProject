@@ -9,10 +9,10 @@ public class GameManager : MonoBehaviour
     public bool isCoopEnabled = false; // track coop state
     public bool gameEnd = false; // track game state
     public bool gameStart = false;
-    public int p1SpawnX = -1; // player 1's x-spawn position
-    public int p1SpawnY = -8; // player 1's y-spawn position
-    public int p2SpawnX = 1; // player 2's x-spawn position
-    public int p2SpawnY = -8; // player 2's y-spawn position
+    public int p1SpawnX = 17; // player 1's x-spawn position
+    public int p1SpawnY = 4; // player 1's y-spawn position
+    public int p2SpawnX = 17; // player 2's x-spawn position
+    public int p2SpawnY = 0; // player 2's y-spawn position
     public int playersAlive = 1; // track number of players alive
     private GameObject sceneObjects;
     private GameObject mainMenu;
@@ -52,9 +52,9 @@ public class GameManager : MonoBehaviour
         waveInfo.SetActive(false);
         gameOverUI.SetActive(false);
 
-        // // skip menu
-        // EnableCoop();
-        // StartGame(); 
+        // skip menu
+            EnableCoop();
+            StartGame();
     }
 
     // Update is called once per frame

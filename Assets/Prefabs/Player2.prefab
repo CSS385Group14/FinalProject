@@ -80,7 +80,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 10
+  m_SortingOrder: 20
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 1, g: 0, b: 0.025686264, a: 1}
   m_FlipX: 0
@@ -110,9 +110,12 @@ MonoBehaviour:
   barricadePrefabSide: {fileID: 2819594338390225035, guid: 6efd5dcb198f65d45b4aa63adbccb506, type: 3}
   speed: 5
   isPlayerOne: 0
+  isDead: 0
   playerXP: 0
   playerHP: 100
   level: 1
+  xBound: 26.64
+  yBound: 11.5
 --- !u!58 &-8055790276093204170
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -161,8 +164,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76c57fe956aa44045856e9a24e6b18d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
-  currentHealth: 0
+  playerMaxHealth: 100
+  towerMaxHealth: 50
+  playerCurrentHealth: 0
+  towerCurrentHealth: 0
   playerNumber: 2
 --- !u!1 &6841465829174894951
 GameObject:

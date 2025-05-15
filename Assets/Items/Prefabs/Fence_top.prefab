@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -537335262504383713}
   - component: {fileID: 1155757126075389683}
   m_Layer: 0
-  m_Name: Fence_Top
+  m_Name: Fence_top
   m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -78,7 +78,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 19
   m_Sprite: {fileID: 7100757809047929424, guid: c0e3259159bae3e40b5291d954854032, type: 3}
   m_Color: {r: 0.69272226, g: 0.69272226, b: 0.69272226, a: 1}
   m_FlipX: 0
@@ -175,6 +175,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35429d52475b8f34d83248c169ffff8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  barricadeOwner: 0
   direction: {x: 0, y: 0}
   health: 10

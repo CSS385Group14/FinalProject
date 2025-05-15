@@ -18,6 +18,8 @@ public class PlayerController : MonoBehaviour
     private int playerNumber;
     private float horizontalInput;
     private float verticalInput;
+    public float xBound = 26.64f;
+    public float yBound = 11.5f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -95,6 +97,30 @@ public class PlayerController : MonoBehaviour
             {
                 PlaceBarricade();
             }
+        }
+
+        if (transform.position.x > xBound){
+            Vector2 pos = transform.position;
+            pos.x = xBound;
+            transform.position = pos;
+        }
+
+        if (transform.position.x < -xBound){
+            Vector2 pos = transform.position;
+            pos.x = -xBound;
+            transform.position = pos;
+        }
+
+        if (transform.position.y > yBound){
+            Vector2 pos = transform.position;
+            pos.y = yBound;
+            transform.position = pos;
+        }
+
+        if (transform.position.y < -yBound){
+            Vector2 pos = transform.position;
+            pos.y = -yBound;
+            transform.position = pos;
         }
     }
 
