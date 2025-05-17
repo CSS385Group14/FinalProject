@@ -53,8 +53,8 @@ public class GameManager : MonoBehaviour
         gameOverUI.SetActive(false);
 
         // skip menu
-            EnableCoop();
-            StartGame();
+            // EnableCoop();
+            // StartGame();
     }
 
     // Update is called once per frame
