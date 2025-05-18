@@ -9,10 +9,10 @@ public class GameManager : MonoBehaviour
     public bool isCoopEnabled = false; // track coop state
     public bool gameEnd = false; // track game state
     public bool gameStart = false;
-    public int p1SpawnX = 17; // player 1's x-spawn position
-    public int p1SpawnY = 4; // player 1's y-spawn position
-    public int p2SpawnX = 17; // player 2's x-spawn position
-    public int p2SpawnY = 0; // player 2's y-spawn position
+    public float p1SpawnX = 14.75f; // player 1's x-spawn position
+    public float p1SpawnY = 0; // player 1's y-spawn position
+    public float p2SpawnX = 14.75f; // player 2's x-spawn position
+    public float p2SpawnY = -2.5f; // player 2's y-spawn position
     public int playersAlive = 1; // track number of players alive
     private GameObject sceneObjects;
     private GameObject mainMenu;
@@ -24,6 +24,8 @@ public class GameManager : MonoBehaviour
     private EnemySpawner enemySpawner;
     private ProgressionManager progManager;
     private TextMeshProUGUI coopButtonText;
+    private InventoryManager inventoryManager;
+    public GameObject testItem; // delete
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -42,6 +44,7 @@ public class GameManager : MonoBehaviour
         // get script handles
         enemySpawner = GameObject.Find("LevelManager").GetComponent<EnemySpawner>();
         progManager = GameObject.Find("ProgressionManager").GetComponent<ProgressionManager>();
+        inventoryManager = GameObject.Find("InventoryManager").GetComponent<InventoryManager>();
         coopButtonText = GameObject.Find("CoopButtonText").GetComponent<TextMeshProUGUI>();
 
         // hide scene objects and player UIs
@@ -52,9 +55,10 @@ public class GameManager : MonoBehaviour
         waveInfo.SetActive(false);
         gameOverUI.SetActive(false);
 
-        // skip menu
-            // EnableCoop();
-            // StartGame();
+        // function calls for testing
+        EnableCoop();
+        StartGame();
+        inventoryManager.AddItem(1, testItem);
     }
 
     // Update is called once per frame
@@ -75,16 +79,16 @@ public class GameManager : MonoBehaviour
         towerUI.SetActive(true);
         waveInfo.SetActive(true);
 
-        // instantiate player 1
-        Instantiate(playerOnePrefab, new Vector2(p1SpawnX, p1SpawnY), playerOnePrefab.transform.rotation);
-        
+        // instantiate player 1 and configure attack
+        Instantiate(playerOnePrefab, new Vector2(p1SpawnX, p1SpawnY), playerOnePrefab.transform.rotation).GetComponent<PlayerController>();
+
         // check if coop is enabled
         if (isCoopEnabled)
         {
             playersAlive++; // increment for player 2
 
             // instantiate player 2
-            Instantiate(playerTwoPrefab, new Vector2(p2SpawnX, p2SpawnY), playerTwoPrefab.transform.rotation);
+            Instantiate(playerTwoPrefab, new Vector2(p2SpawnX, p2SpawnY), playerTwoPrefab.transform.rotation).GetComponent<PlayerController>();
 
             // enable player 2 UI
             player2UI.SetActive(true);

@@ -177,3 +177,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   direction: {x: 1, y: 0}
   health: 10
+  barricadePrefabTop: {fileID: 2819594338390225035, guid: 0774c28b76d5f4b43a8e38876d137f8e, type: 3}
+  barricadePrefabSide: {fileID: 2819594338390225035}

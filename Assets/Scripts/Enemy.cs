@@ -4,6 +4,7 @@ public class Enemy : MonoBehaviour
 {
     public int maxHealth = 30; // how much health the enemy has
     public int xpValue = 100; // amount of xp gained by the player when killed
+    public int goldValue = 2; // amount of gold gained by the player when killed
     public PlayerController player; // do not set in unity!
     private int lastHitPlayer;
     Animator animator;
@@ -61,12 +62,13 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         if (tower != null) {
-            if (health < 10)
+            if (health < 1)
             {
                 player = GameObject.Find("Player" + lastHitPlayer + "(Clone)")?.GetComponent<PlayerController>();
                 if (player != null)
                 {
                     player.GainXP(xpValue);
+                    player.GainGold(goldValue);
                 }
                 EnemySpawner.onEnemyDestroy?.Invoke();
                 Destroy(gameObject);
