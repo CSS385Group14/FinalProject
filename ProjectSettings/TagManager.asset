@@ -9,6 +9,7 @@ TagManager:
   - Tower
   - Player 1
   - Player 2
+  - Placeable
   layers:
   - Default
   - TransparentFX

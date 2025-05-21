@@ -214,7 +214,6 @@ MonoBehaviour:
   attackCooldown: 0.2
   towerDamageValue: 10
   playerDamageValue: 5
-  lockedInCombat: 0
 --- !u!114 &-5782319541016839703
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -227,7 +226,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98d016b6e504ab04291add266673ac16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 30
+  maxHealth: 100
   xpValue: 10
   goldValue: 50
   player: {fileID: 0}
@@ -248,7 +247,7 @@ Animator:
   m_GameObject: {fileID: 7013778372568217233}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 06f7e43fe242da543a78ffc8901e03ef, type: 2}
+  m_Controller: {fileID: 9100000, guid: 1e0bf12d286f2064d8eb8bb102b6c241, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

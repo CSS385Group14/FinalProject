@@ -19,22 +19,25 @@ public class PlayerController : MonoBehaviour
     public float yBound = 12.305f;
     private float nextFireTime = 0f;
     private GameManager gameManager;
-    private DefenseManager defenseManager;
     private InventoryManager inventoryManager;
     private PlayerAttackManager playerAttackManager;
+    private HealthbarController hpBarController;
+    private XPBarController xpBarController;
     private Vector2 lastMoveDirection;
+    private GameObject deathUI;
     private int playerNumber;
     private float horizontalInput;
     private float verticalInput;
-    public Placeable placeable;
+    public Placeable placeable; // equipped placeable item
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        defenseManager = GameObject.Find("LevelManager").GetComponent<DefenseManager>();
         playerAttackManager = transform.Find("FireRange").GetComponent<PlayerAttackManager>();
-        inventoryManager = GameObject.Find("InventoryManager").GetComponent<InventoryManager>();
+        inventoryManager = gameObject.GetComponent<InventoryManager>();
+        hpBarController = transform.GetComponent<HealthbarController>();
+        xpBarController = transform.GetComponent<XPBarController>();
 
         // get player numbers
         if (isPlayerOne) // is player 1
@@ -46,24 +49,29 @@ public class PlayerController : MonoBehaviour
             playerNumber = 2;
         }
 
+        deathUI = GameObject.Find("P" + playerNumber + "DeathBG"); // get death UI handle
+        deathUI.SetActive(false); // turn off death indicator
+
         // update UI at the start to reflect starting values
-        UpdateUI(playerXP, playerGold, level);
+        UpdateUI(playerGold, level);
     }
 
     // Update is called once per frame
     void Update()
     {
         if (gameManager.gameEnd || isDead) // block player controls if game ended or if dead
-            {
-                return;
-            }
+        {
+            return;
+        }
 
         if (playerHP < 1) // check health
         {
             gameManager.playersAlive--;
+            Debug.Log("Players alive: " + gameManager.playersAlive);
 
-            // show death indicator
+            // show death indicators
             transform.Find("DeathIndicator").gameObject.SetActive(true);
+            deathUI.SetActive(true);
 
             // disable this player's controls
             isDead = true;
@@ -73,6 +81,30 @@ public class PlayerController : MonoBehaviour
         horizontalInput = Input.GetAxis("HorizontalP" + playerNumber);
         verticalInput = Input.GetAxis("VerticalP" + playerNumber);
         Vector2 moveInput = new Vector2(horizontalInput, verticalInput);
+
+        // arrow movements
+        if (!isPlayerOne)
+        {
+            horizontalInput = Input.GetAxis("HorizontalP2Arrows");
+            verticalInput = Input.GetAxis("VerticalP2Arrows");
+            Vector2 moveInputArrows = new Vector2(horizontalInput, verticalInput);
+
+            if (moveInputArrows.sqrMagnitude > 0.001f)
+            {
+                // get the last move direction for the projectile fired
+                lastMoveDirection = moveInputArrows.normalized;
+
+                // rotate sprite to face the movement direction
+                float angle = Mathf.Atan2(lastMoveDirection.y, lastMoveDirection.x) * Mathf.Rad2Deg;
+                transform.rotation = Quaternion.Euler(0, 0, angle - 90);
+            }
+
+                // interpret player control of the game object
+            transform.position += new Vector3(moveInputArrows.x, moveInputArrows.y, 0) * speed * Time.deltaTime;
+
+            // interpret player control of the game object
+            transform.position += new Vector3(moveInputArrows.x, moveInputArrows.y, 0) * speed * Time.deltaTime;
+        }
 
         // only update lastMoveDirection if there's movement
         if (moveInput.sqrMagnitude > 0.001f)
@@ -84,6 +116,9 @@ public class PlayerController : MonoBehaviour
             float angle = Mathf.Atan2(lastMoveDirection.y, lastMoveDirection.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.Euler(0, 0, angle - 90);
         }
+
+        // interpret player control of the game object
+        transform.position += new Vector3(moveInput.x, moveInput.y, 0) * speed * Time.deltaTime;
 
         // interpret player control of the game object
         transform.position += new Vector3(moveInput.x, moveInput.y, 0) * speed * Time.deltaTime;
@@ -103,11 +138,6 @@ public class PlayerController : MonoBehaviour
                 {
                     placeable.Place(0, playerNumber, transform, lastMoveDirection);
                 }
-            }
-
-            if (Input.GetKeyDown(KeyCode.R)) // place defense
-            {
-                defenseManager.Place(0, playerNumber, transform, lastMoveDirection);
             }
 
             if (Input.GetKeyDown(KeyCode.Alpha1)) // hotbar select
@@ -137,23 +167,18 @@ public class PlayerController : MonoBehaviour
         }
         else // player 2 controls
         {
-            if (Input.GetKey(KeyCode.U) && Time.time >= nextFireTime)
+            if ((Input.GetKey(KeyCode.U) || Input.GetKey(KeyCode.RightShift)) && Time.time >= nextFireTime)
             {
                 FireProjectile();
                 nextFireTime = Time.time + fireRate;
             }
 
-            if (Input.GetKeyDown(KeyCode.O)) // place item
+            if (Input.GetKeyDown(KeyCode.O) || Input.GetKey(KeyCode.RightControl)) // place item
             {
                 if (placeable != null)
                 {
                     placeable.Place(0, playerNumber, transform, lastMoveDirection);
                 }
-            }
-
-            if (Input.GetKeyDown(KeyCode.Y)) // place defense
-            {
-                defenseManager.Place(0, playerNumber, transform, lastMoveDirection);
             }
 
             if (Input.GetKeyDown(KeyCode.Alpha6)) // hotbar select
@@ -214,19 +239,20 @@ public class PlayerController : MonoBehaviour
     public void TakeDamage(int damageTaken)
     {
         playerHP -= damageTaken;
-        transform.GetComponent<HealthbarController>().TakePlayerDamage(damageTaken);
+        hpBarController.TakePlayerDamage(damageTaken);
     }
 
     public void GainXP(int xpAmount)
     {
         playerXP += xpAmount;
-        UpdateUI(playerXP, playerGold, level);
+        xpBarController.FillXPBar(xpAmount);
+        UpdateUI(playerGold, level);
     }
 
     public void GainGold(int goldAmount)
     {
         playerGold += goldAmount;
-        UpdateUI(playerXP, playerGold, level);
+        UpdateUI(playerGold, level);
     }
 
     public bool DeductGold(int goldAmount)
@@ -237,28 +263,27 @@ public class PlayerController : MonoBehaviour
             return false;
         }
         playerGold -= goldAmount;
-        UpdateUI(playerXP, playerGold, level);
+        UpdateUI(playerGold, level);
         return true;
     }
 
     public void LevelUp()
     {
         level++;
-        UpdateUI(playerXP, playerGold, level);
+        xpBarController.ResetXPBar();
+        UpdateUI(playerGold, level);
     }
 
-    private void UpdateUI(int xp, int gold, int level)
+    private void UpdateUI(int gold, int level)
     {
         if (playerNumber == 1) // player 1
         {
             GameObject.Find("P1LevelText").GetComponent<TextMeshProUGUI>().SetText("" + (level - 1));
-            GameObject.Find("P1XPCountText").GetComponent<TextMeshProUGUI>().SetText("XP: " + xp);
             GameObject.Find("P1GoldCountText").GetComponent<TextMeshProUGUI>().SetText("Gold: " + gold);
         }
         else // player 2
         {
             GameObject.Find("P2LevelText").GetComponent<TextMeshProUGUI>().SetText("" + (level - 1));
-            GameObject.Find("P2XPCountText").GetComponent<TextMeshProUGUI>().SetText("XP: " + xp);
             GameObject.Find("P2GoldCountText").GetComponent<TextMeshProUGUI>().SetText("Gold: " + gold);
         }
     }

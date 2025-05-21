@@ -20,12 +20,10 @@ public class Barricade : Placeable
         if (lastMoveDirection == Vector2.right || lastMoveDirection == Vector2.left)
         {
             Instantiate(barricadePrefabTop, playerTransform.position, barricadePrefabSide.transform.rotation);
-            //Instantiate(prefab, transform.position, barricadePrefabSide.transform.rotation);
         }
         else if (lastMoveDirection == Vector2.up || lastMoveDirection == Vector2.down)
         {
             Instantiate(barricadePrefabSide, playerTransform.position, barricadePrefabSide.transform.rotation);
-            //Instantiate(prefab, transform.position, barricadePrefabSide.transform.rotation);
         }
     }
 

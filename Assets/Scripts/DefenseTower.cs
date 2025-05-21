@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DefenseTower : MonoBehaviour
+public class DefenseTower : Placeable
 {
     public GameObject projectilePrefab;
     public Transform firePoint;
@@ -13,9 +13,15 @@ public class DefenseTower : MonoBehaviour
     private float fireCooldown;
     private List<Transform> enemiesInRange = new List<Transform>();
 
-    void Start()
+    public override void Place(int selectionIndex, int playerNumber, Transform playerTransform, Vector2 lastMoveDirection)
     {
+        PlayerController player = GameObject.Find("Player" + playerNumber + "(Clone)").GetComponent<PlayerController>();
 
+        if (player.DeductGold(goldCost))
+        {
+            SetOwner(playerNumber);
+            Instantiate(gameObject, playerTransform.position, transform.rotation);
+        }
     }
 
     void Update()

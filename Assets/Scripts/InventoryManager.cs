@@ -1,41 +1,26 @@
-// attach to GameManager
 using UnityEngine.UI;
 using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
 {
-    GameObject[] p1Inv = { null, null, null, null, null };
-    GameObject[] p2Inv = { null, null, null, null, null };
+    GameObject[] inv = { null, null, null, null, null };
 
-    public bool AddItem(int playerNumber, GameObject item) 
+    public bool AddItem(int playerNumber, GameObject item)
     {
         if (item == null)
         {
             return false;
         }
 
-        GameObject[] inv = p1Inv; // defaults to player 1 inv
-
-        if (playerNumber == 2)
-        {
-            inv = p2Inv;
-        }
-      
-        for (int i = 0; i < p1Inv.Length; i++)
+        for (int i = 0; i < inv.Length; i++)
         {
             if (inv[i] == null) // find first empty inv slot
             {
                 inv[i] = item;
-                Image img = item.GetComponent<Image>();
+                SpriteRenderer itemSprite = item.GetComponent<SpriteRenderer>();
                 GameObject invIcon = GameObject.Find("P" + playerNumber + "Icon" + i);
-                Image iconImage = invIcon.GetComponent<Image>();
-
-                if (img != null && iconImage != null) // image assignment doesn't work
-                {
-                    iconImage.sprite = img.sprite;     
-                    iconImage.color = img.color;              
-                    iconImage.preserveAspect = img.preserveAspect;
-                }
+                invIcon.GetComponent<Image>().sprite = itemSprite.sprite; // change inventory icon image
+                invIcon.GetComponent<Image>().color = itemSprite.color;
 
                 return true; // true for success
             }
@@ -46,26 +31,24 @@ public class InventoryManager : MonoBehaviour
 
     public void SelectItem(int playerNumber, int index)
     {
-        GameObject[] inv = p1Inv; // defaults to player 1 inv
-
-        if (playerNumber == 2)
-        {
-            inv = p2Inv;
-        }
 
         if (inv[index] != null)
         {
-            GameObject.Find("Player" + playerNumber + "(Clone)").GetComponent<PlayerController>().placeable.prefab = inv[index];
-            // Placeable placeable = inv[index].GetComponent<Placeable>(); // check if item is a Placeable
-            // if (placeable != null)
-            // {
-            //     gameObject.GetComponent<PlayerController>().placeable = placeable; // change equiped Placeable
-                 Debug.Log("selected");
-            // }
-            // else
-            // {
-            //     Debug.Log("null placeable");
-            // }
+            Placeable placeable = inv[index].GetComponent<Placeable>();
+
+            if (placeable != null) // is this prefab a Placeable?
+            {
+                gameObject.GetComponent<PlayerController>().placeable = placeable; // change equipped Placeable
+                Debug.Log("selected + " + gameObject.GetComponent<PlayerController>().placeable.name); // DELETE
+            }
+            else
+            {
+                Debug.LogError("Not a placeable");
+            }
+        }
+        else
+        {
+            Debug.Log("Empty slot");
         }
     }
 }

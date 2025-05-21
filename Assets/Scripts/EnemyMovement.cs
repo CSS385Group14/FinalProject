@@ -16,8 +16,13 @@ public class EnemyMovement : MonoBehaviour
     private Transform[] path;
     private int pathIndex = 0;  
     private MainTower mainTower;
-    private bool isStopped = false;
-    public bool lockedInCombat = false;
+
+    private bool stopRequestedExternally = false;
+    private bool stoppedByBarricade = false;
+
+    public bool lockedInCombat { get; set; } = false;
+
+    private bool isStopped => stopRequestedExternally || stoppedByBarricade;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -58,11 +63,7 @@ public class EnemyMovement : MonoBehaviour
     }
     public void StopMovement(bool stop)
     {
-        isStopped = stop;
-        if (stop)
-        {
-            rb.linearVelocity = Vector2.zero;
-        }
+        stopRequestedExternally = stop;
     }
 
     void FixedUpdate()
@@ -93,8 +94,8 @@ public class EnemyMovement : MonoBehaviour
     // Attack when barricade is reached (Placeholder code)
     void OnTriggerEnter2D(Collider2D collision) {
         if (collision.CompareTag("Wall")) // if impacts a barricade
-        { 
-            isStopped = true;
+        {
+            stoppedByBarricade = true;
             StartCoroutine(AttackBarricade(collision.GetComponent<Barricade>()));
         }
 
@@ -103,8 +104,8 @@ public class EnemyMovement : MonoBehaviour
             mainTower.TakeDamage(towerDamageValue);
         }
     }
-
-    void OnTriggerStay2D(Collider2D collision)
+    //We dont need this since it is already handle attack player in enemy scripts
+    /*void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.CompareTag("Player")) // keep attacking the player if it remains in contact
         {
@@ -114,7 +115,7 @@ public class EnemyMovement : MonoBehaviour
                 collision.GetComponent<PlayerController>().TakeDamage(playerDamageValue);
             }
         }
-    }
+    }*/
 
     // should create a custom type in which attackable entities inherit from
     // so we do not need to create multiple attack methods (if we ever need to
@@ -125,7 +126,6 @@ public class EnemyMovement : MonoBehaviour
             barricade.TakeDamage(2);
             yield return new WaitForSeconds(attackCooldown); // wait in between attacks
         }
-
-        isStopped = false;
+        stoppedByBarricade = false;
     }
 }

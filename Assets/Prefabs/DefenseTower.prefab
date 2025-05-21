@@ -29,7 +29,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -13.58, y: 3.23, z: 0}
-  m_LocalScale: {x: 2.4496, y: 2.4496, z: 2.4496}
+  m_LocalScale: {x: 1.9299663, y: 1.9299663, z: 1.9299663}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8013198911146115458}
@@ -79,12 +79,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 7
-  m_Sprite: {fileID: 2323917800338813707, guid: 06dcd43d7f9d8bd479f654b7bff04da8, type: 3}
+  m_Sprite: {fileID: -4292938964486044048, guid: aad3d4752b312184699fc753466b0aa7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.65, y: 1.08}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -102,11 +102,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6020583062faed445a19efb94de30fa3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  prefab: {fileID: 2044612362142568405}
   projectilePrefab: {fileID: 4655083780644892886, guid: 1dba9f0f301af3e43b2c88c797ed4db8, type: 3}
   firePoint: {fileID: 8013198911146115458}
   fireRate: 1
   projectileSpeed: 15
-  projectileDamage: 5
+  projectileDamage: 50
   goldCost: 100
 --- !u!58 &-2503785361569129814
 CircleCollider2D:

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public int maxHealth = 30; // how much health the enemy has
+    public int maxHealth = 100; // how much health the enemy has
     public int xpValue = 100; // amount of xp gained by the player when killed
     public int goldValue = 2; // amount of gold gained by the player when killed
     public PlayerController player; // do not set in unity!
@@ -96,13 +96,13 @@ public class Enemy : MonoBehaviour
 
                     // === Range checks ===
                     bool towerInRange = distanceToTower <= detectionRangeTower;
-                    bool player1InRange = distanceToPlayer1 <= detectionRangePlayer && Mathf.Abs(transform.position.y - player1.transform.position.y) < 0.5f;
-                    bool player2InRange = player2 != null && distanceToPlayer2 <= detectionRangePlayer && Mathf.Abs(transform.position.y - player2.transform.position.y) < 0.5f;
+                    bool player1InRange = distanceToPlayer1 <= detectionRangePlayer && Mathf.Abs(transform.position.y - player1.transform.position.y) < 1.5f;
+                    bool player2InRange = player2 != null && distanceToPlayer2 <= detectionRangePlayer && Mathf.Abs(transform.position.y - player2.transform.position.y) < 1.5f;
 
                     bool anyTargetInRange = towerInRange || (player1InRange && !isPlayer1Dead) || (player2InRange && !isPlayer2Dead);
 
                     // === Movement handling ===
-                    //movement?.StopMovement(anyTargetInRange);
+                    movement?.StopMovement(anyTargetInRange);
                     movement.lockedInCombat = anyTargetInRange;
 
                     // === Targeting priority ===
@@ -142,9 +142,11 @@ public class Enemy : MonoBehaviour
     // Called when the enemy is hit by a projectile
     public void TakeDamage(int damage, int owner)
     {
-        //animator.SetTrigger("HurtTrigger");
+        Debug.Log("Animator Hurt Trigger Called");
+        animator.SetTrigger("HurtTrigger");
         lastHitPlayer = owner;
         health -= damage;
+        Debug.Log("Enemy took damage: " + damage + ", Remaining HP: " + health);
         Color color = spriteRenderer.color;
         color.a *= 0.9f;
         spriteRenderer.color = color;

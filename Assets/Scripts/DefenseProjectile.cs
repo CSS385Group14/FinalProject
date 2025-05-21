@@ -42,10 +42,10 @@ public class DefenseProjectile : MonoBehaviour
         if (!initialized)
             return;
 
-        // Move in the originally locked direction
+        // move in the originally locked direction
         transform.position += (Vector3)(moveDirection * speed * Time.deltaTime);
 
-        // Lifetime limit in case the projectile misses
+        // lifetime limit in case the projectile misses
         maxLifetime -= Time.deltaTime;
         if (maxLifetime <= 0f)
         {
@@ -53,10 +53,9 @@ public class DefenseProjectile : MonoBehaviour
             return;
         }
 
-        // If the target still exists and is within a hit radius
+        // if the target still exists and is within a hit radius
         if (target != null && Vector2.Distance(transform.position, target.position) < hitRadius)
         {
-            // TODO: Apply damage here, e.g., target.GetComponent<Enemy>().TakeDamage(damage);
             Enemy enemy = target.GetComponent<Enemy>();
             enemy.TakeDamage(damage, playerNumber);
             Destroy(gameObject);

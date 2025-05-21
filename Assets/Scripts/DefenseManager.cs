@@ -1,36 +1,38 @@
-using UnityEngine;
+//OBSOLETE
 
-public class DefenseManager : Placeable
-{
-    public GameObject[] defensePrefabs;
+// using UnityEngine;
 
-    public override void Place(int selectionIndex, int playerNumber, Transform playerTransform, Vector2 lastMoveDirection)
-    {
-        if (defensePrefabs[selectionIndex] == null) return;
+// public class DefenseManager : Placeable
+// {
+//     public GameObject[] defensePrefabs;
 
-        // try to get the DefenseTower component from the prefab
-        DefenseTower defense = defensePrefabs[selectionIndex].GetComponent<DefenseTower>();
-        if (defense == null)
-        {
-            Debug.LogWarning("Prefab does not have a DefenseTower component.");
-            return;
-        }
+//     public override void Place(int selectionIndex, int playerNumber, Transform playerTransform, Vector2 lastMoveDirection)
+//     {
+//         if (defensePrefabs[selectionIndex] == null) return;
 
-        // do build check here
+//         // try to get the DefenseTower component from the prefab
+//         DefenseTower defense = defensePrefabs[selectionIndex].GetComponent<DefenseTower>();
+//         if (defense == null)
+//         {
+//             Debug.LogWarning("Prefab does not have a DefenseTower component.");
+//             return;
+//         }
 
-        // instantiate this defense at the player position
-        GameObject instance = Instantiate(defensePrefabs[selectionIndex], playerTransform.position, defensePrefabs[selectionIndex].transform.rotation);
-        //GameObject instance = Instantiate(prefab, playerTransform.position, defensePrefabs[selectionIndex].transform.rotation);
-        DefenseTower def = instance.GetComponent<DefenseTower>();
+//         // do build check here
 
-        // pass the player number so that gold and xp can be routed toward that player on enemy killed
-        def.SetOwner(playerNumber);
+//         // instantiate this defense at the player position
+//         GameObject instance = Instantiate(defensePrefabs[selectionIndex], playerTransform.position, defensePrefabs[selectionIndex].transform.rotation);
+//         //GameObject instance = Instantiate(prefab, playerTransform.position, defensePrefabs[selectionIndex].transform.rotation);
+//         DefenseTower def = instance.GetComponent<DefenseTower>();
 
-        // deduct gold cost from player who placed this defense
-        PlayerController player = GameObject.Find("Player" + playerNumber + "(Clone)").GetComponent<PlayerController>();
-        if (!player.DeductGold(def.goldCost)) // if player does not have enough gold, undo instantiation
-        {
-            Destroy(instance);
-        }
-    }
-}
+//         // pass the player number so that gold and xp can be routed toward that player on enemy killed
+//         def.SetOwner(playerNumber);
+
+//         // deduct gold cost from player who placed this defense
+//         PlayerController player = GameObject.Find("Player" + playerNumber + "(Clone)").GetComponent<PlayerController>();
+//         if (!player.DeductGold(def.goldCost)) // if player does not have enough gold, undo instantiation
+//         {
+//             Destroy(instance);
+//         }
+//     }
+// }
