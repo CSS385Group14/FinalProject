@@ -148,10 +148,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectileOwner: 1
-<<<<<<< HEAD
   direction: {x: 0.37115392, y: -0.9285714}
-=======
-  direction: {x: 0.7689499, y: 0.63930905}
->>>>>>> 1bb0681f6ccf692cfc86d9bcee119cb9526059c3
   despawnX: 23
   despawnY: 13

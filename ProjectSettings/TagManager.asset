@@ -8,7 +8,6 @@ TagManager:
   - Tower
   - Player 1
   - Player 2
-<<<<<<< HEAD
   - Enemy Level 1
   - Enemy Level 2
   - Enemy Level 3
@@ -16,9 +15,6 @@ TagManager:
   - Enemy Level 5
   - Enemy
   - Obstacle
-=======
-  - Placeable
->>>>>>> 1bb0681f6ccf692cfc86d9bcee119cb9526059c3
   layers:
   - Default
   - TransparentFX

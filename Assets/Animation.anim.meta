@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:Assets/Animation.anim.meta
 guid: 869d29530e3828641a2608c62af92f10
-========
-guid: ebf98818758591c4a8cce63d5f7b6125
->>>>>>>> 1bb0681f6ccf692cfc86d9bcee119cb9526059c3:Assets/Animations/Enemy_Level1/Walk/Walk.anim.meta
 NativeFormatImporter:
   externalObjects: {}
   mainObjectFileID: 7400000

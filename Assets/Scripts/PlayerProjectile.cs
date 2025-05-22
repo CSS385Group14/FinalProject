@@ -36,7 +36,6 @@ public class PlayerProjectile : MonoBehaviour
    
             enemy.TakeDamage(projectileDamage, projectileOwner);
 
-<<<<<<< HEAD
             Destroy(gameObject);
         }
         if (collision.gameObject.CompareTag("Enemy Level 2"))
@@ -60,8 +59,6 @@ public class PlayerProjectile : MonoBehaviour
 
             enemy4.TakeDamage(projectileDamage, projectileOwner);
 
-=======
->>>>>>> 1bb0681f6ccf692cfc86d9bcee119cb9526059c3
             Destroy(gameObject);
         }
     }

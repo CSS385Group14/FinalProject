@@ -56,13 +56,8 @@ public class GameManager : MonoBehaviour
         gameOverUI.SetActive(false);
 
         // DELETE
-<<<<<<< HEAD
         EnableCoop();
         StartGame();
-=======
-        // EnableCoop();
-        // StartGame();
->>>>>>> 1bb0681f6ccf692cfc86d9bcee119cb9526059c3
         // InventoryManager inventoryManager = GameObject.Find("Player" + 1 + "(Clone)").GetComponent<InventoryManager>();
         // inventoryManager.AddItem(1, testItem);
         // inventoryManager.AddItem(1, testItem2);

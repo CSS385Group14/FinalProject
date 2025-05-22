@@ -142,11 +142,7 @@ public class Enemy : MonoBehaviour
     // Called when the enemy is hit by a projectile
     public void TakeDamage(int damage, int owner)
     {
-<<<<<<< HEAD
         //Debug.Log("Animator Hurt Trigger Called");
-=======
-        Debug.Log("Animator Hurt Trigger Called");
->>>>>>> 1bb0681f6ccf692cfc86d9bcee119cb9526059c3
         animator.SetTrigger("HurtTrigger");
         lastHitPlayer = owner;
         health -= damage;

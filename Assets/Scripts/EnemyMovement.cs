@@ -99,14 +99,7 @@ public class EnemyMovement : MonoBehaviour
             StartCoroutine(AttackBarricade(collision.GetComponent<Barricade>()));
         }
 
-<<<<<<< HEAD
 
-=======
-        if (collision.CompareTag("Tower")) // if impacts the main tower
-        {
-            mainTower.TakeDamage(towerDamageValue);
-        }
->>>>>>> 1bb0681f6ccf692cfc86d9bcee119cb9526059c3
     }
     //We dont need this since it is already handle attack player in enemy scripts
     /*void OnTriggerStay2D(Collider2D collision)
@@ -118,13 +111,8 @@ public class EnemyMovement : MonoBehaviour
                 nextFireTime = Time.time + attackCooldown;
                 collision.GetComponent<PlayerController>().TakeDamage(playerDamageValue);
             }
-<<<<<<< HEAD
         }*/
     
-=======
-        }
-    }*/
->>>>>>> 1bb0681f6ccf692cfc86d9bcee119cb9526059c3
 
     // should create a custom type in which attackable entities inherit from
     // so we do not need to create multiple attack methods (if we ever need to

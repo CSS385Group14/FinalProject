@@ -61,8 +61,5 @@ public class DefenseProjectile : MonoBehaviour
             Destroy(gameObject);
         }
     }
-<<<<<<< HEAD
 
-=======
->>>>>>> 1bb0681f6ccf692cfc86d9bcee119cb9526059c3
 }
