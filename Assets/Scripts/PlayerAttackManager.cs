@@ -6,6 +6,7 @@ public class PlayerAttackManager : MonoBehaviour
     // store all enemies that are in range of player
     private List<Transform> enemiesInRange = new List<Transform>();
 
+<<<<<<< HEAD
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -37,6 +38,11 @@ public class PlayerAttackManager : MonoBehaviour
             enemiesInRange.Add(other.transform);
         }
         if (other.CompareTag("Enemy Level 5"))
+=======
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Enemy"))
+>>>>>>> 1bb0681f6ccf692cfc86d9bcee119cb9526059c3
         {
             enemiesInRange.Add(other.transform);
         }
@@ -44,6 +50,7 @@ public class PlayerAttackManager : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D other)
     {
+<<<<<<< HEAD
         if (other.CompareTag("Enemy Level 1"))
         {
             enemiesInRange.Remove(other.transform);
@@ -61,6 +68,9 @@ public class PlayerAttackManager : MonoBehaviour
             enemiesInRange.Remove(other.transform);
         }
         if (other.CompareTag("Enemy Level 5"))
+=======
+        if (other.CompareTag("Enemy"))
+>>>>>>> 1bb0681f6ccf692cfc86d9bcee119cb9526059c3
         {
             enemiesInRange.Remove(other.transform);
         }

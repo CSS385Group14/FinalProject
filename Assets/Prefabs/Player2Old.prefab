@@ -14,7 +14,11 @@ GameObject:
   - component: {fileID: -8055790276093204170}
   - component: {fileID: 6064049120306824890}
   - component: {fileID: 7074100273091843621}
+<<<<<<< HEAD
   - component: {fileID: 860778874947146694}
+=======
+  - component: {fileID: 4922879553719241386}
+>>>>>>> 1bb0681f6ccf692cfc86d9bcee119cb9526059c3
   m_Layer: 3
   m_Name: Player2Old
   m_TagString: Player
@@ -190,14 +194,20 @@ MonoBehaviour:
   playerCurrentLevelXP: 0
   lastXPThreshold: 0
   nextXPThreshold: 0
+<<<<<<< HEAD
 --- !u!195 &860778874947146694
 NavMeshAgent:
+=======
+--- !u!114 &4922879553719241386
+MonoBehaviour:
+>>>>>>> 1bb0681f6ccf692cfc86d9bcee119cb9526059c3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1325400402379352727}
   m_Enabled: 1
+<<<<<<< HEAD
   m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 3.5
@@ -212,6 +222,12 @@ NavMeshAgent:
   m_BaseOffset: 0.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+=======
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdbd09b4e0157264fae0c3b0c03c30bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+>>>>>>> 1bb0681f6ccf692cfc86d9bcee119cb9526059c3
 --- !u!1 &6841465829174894951
 GameObject:
   m_ObjectHideFlags: 0

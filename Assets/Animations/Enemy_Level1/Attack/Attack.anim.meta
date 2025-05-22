@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Animations/Enemy_Level1/Attack/Attack.anim.meta
 guid: 0f86b95b2a28fc44dae202f6edb16adf
+========
+guid: c55e931ff868a9941b803859baa6441e
+>>>>>>>> 1bb0681f6ccf692cfc86d9bcee119cb9526059c3:Assets/Animations/Enemy_Level1/Hurt/Hurt.anim.meta
 NativeFormatImporter:
   externalObjects: {}
   mainObjectFileID: 7400000

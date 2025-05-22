@@ -164,6 +164,21 @@ public class EnemySpawner : MonoBehaviour
 
         int selectedLevel = GetRandomAvailableEnemyLevel();
         if (selectedLevel == -1)
+<<<<<<< HEAD
+=======
+        {
+            Debug.LogWarning("No available enemy levels to spawn.");
+            return;
+        }
+
+        GameObject prefab = enemyPrefabs[selectedLevel - 1];
+        enemiesToSpawnPerLevel[selectedLevel]--;
+
+        GameObject enemyObj = Instantiate(prefab, PathManager.main.startPoint.position, Quaternion.identity);
+
+        EnemyMovement enemy = enemyObj.GetComponent<EnemyMovement>();
+        if (enemy != null)
+>>>>>>> 1bb0681f6ccf692cfc86d9bcee119cb9526059c3
         {
             Debug.LogWarning("No available enemy levels to spawn.");
             return;
@@ -181,6 +196,7 @@ public class EnemySpawner : MonoBehaviour
             EnemyChase chaseEnemy = enemyObj.GetComponent<EnemyChase>();
             if (chaseEnemy != null && path != null && path.Length > 1)
             {
+<<<<<<< HEAD
                 chaseEnemy.InitPath(path);
             }
         }
@@ -216,6 +232,19 @@ public class EnemySpawner : MonoBehaviour
     }
 
 
+=======
+                enemy.InitPath(path);
+            }
+
+            Enemy enemyScript = enemyObj.GetComponent<Enemy>();
+            if (enemyScript != null)
+            {
+                enemyScript.SetTargets(player1, player2, tower);
+            }
+        }
+    }
+
+>>>>>>> 1bb0681f6ccf692cfc86d9bcee119cb9526059c3
     private int GetRandomAvailableEnemyLevel()
     {
         List<int> availableLevels = new List<int>();

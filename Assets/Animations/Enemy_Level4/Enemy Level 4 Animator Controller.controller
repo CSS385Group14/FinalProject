@@ -1,5 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+<<<<<<<< HEAD:Assets/Animations/Enemy_Level4/Enemy Level 4 Animator Controller.controller
 --- !u!91 &9100000
 AnimatorController:
   m_ObjectHideFlags: 0
@@ -35,16 +36,27 @@ AnimatorController:
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
 --- !u!1102 &124029107163905082
+========
+--- !u!1102 &-7876072952141012486
+>>>>>>>> 1bb0681f6ccf692cfc86d9bcee119cb9526059c3:Assets/Enemies/Enemy Animator/Level 1/Enemy Animation Controler.controller
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+<<<<<<<< HEAD:Assets/Animations/Enemy_Level4/Enemy Level 4 Animator Controller.controller
   m_Name: Enemy Level 4 Hurt Animation
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
+========
+  m_Name: Enemy Lv1 Hurt Animation
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions:
+  - {fileID: 8324168704088300895}
+>>>>>>>> 1bb0681f6ccf692cfc86d9bcee119cb9526059c3:Assets/Enemies/Enemy Animator/Level 1/Enemy Animation Controler.controller
   m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
@@ -54,13 +66,21 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
+<<<<<<<< HEAD:Assets/Animations/Enemy_Level4/Enemy Level 4 Animator Controller.controller
   m_Motion: {fileID: 7400000, guid: 52dc05f2ae707a047855812b661aa8ac, type: 2}
+========
+  m_Motion: {fileID: 7400000, guid: d6cf5171a2d95334d99f4424322c6067, type: 2}
+>>>>>>>> 1bb0681f6ccf692cfc86d9bcee119cb9526059c3:Assets/Enemies/Enemy Animator/Level 1/Enemy Animation Controler.controller
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+<<<<<<<< HEAD:Assets/Animations/Enemy_Level4/Enemy Level 4 Animator Controller.controller
 --- !u!1101 &2846535290213984108
+========
+--- !u!1101 &-4299927466879900366
+>>>>>>>> 1bb0681f6ccf692cfc86d9bcee119cb9526059c3:Assets/Enemies/Enemy Animator/Level 1/Enemy Animation Controler.controller
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -72,7 +92,11 @@ AnimatorStateTransition:
     m_ConditionEvent: HurtTrigger
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
+<<<<<<<< HEAD:Assets/Animations/Enemy_Level4/Enemy Level 4 Animator Controller.controller
   m_DstState: {fileID: 124029107163905082}
+========
+  m_DstState: {fileID: -7876072952141012486}
+>>>>>>>> 1bb0681f6ccf692cfc86d9bcee119cb9526059c3:Assets/Enemies/Enemy Animator/Level 1/Enemy Animation Controler.controller
   m_Solo: 0
   m_Mute: 0
   m_IsExit: 0
@@ -85,7 +109,11 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+<<<<<<<< HEAD:Assets/Animations/Enemy_Level4/Enemy Level 4 Animator Controller.controller
 --- !u!1107 &5416602350435023264
+========
+--- !u!1107 &-2056360825761413359
+>>>>>>>> 1bb0681f6ccf692cfc86d9bcee119cb9526059c3:Assets/Enemies/Enemy Animator/Level 1/Enemy Animation Controler.controller
 AnimatorStateMachine:
   serializedVersion: 6
   m_ObjectHideFlags: 1
@@ -95,6 +123,7 @@ AnimatorStateMachine:
   m_Name: Base Layer
   m_ChildStates:
   - serializedVersion: 1
+<<<<<<<< HEAD:Assets/Animations/Enemy_Level4/Enemy Level 4 Animator Controller.controller
     m_State: {fileID: 7908119258505478109}
     m_Position: {x: 280, y: 120, z: 0}
   - serializedVersion: 1
@@ -103,6 +132,13 @@ AnimatorStateMachine:
   - serializedVersion: 1
     m_State: {fileID: 7673606635579452169}
     m_Position: {x: 550, y: 120, z: 0}
+========
+    m_State: {fileID: 2303506810437608847}
+    m_Position: {x: 290, y: 110, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -7876072952141012486}
+    m_Position: {x: 550, y: 110, z: 0}
+>>>>>>>> 1bb0681f6ccf692cfc86d9bcee119cb9526059c3:Assets/Enemies/Enemy Animator/Level 1/Enemy Animation Controler.controller
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -112,13 +148,55 @@ AnimatorStateMachine:
   m_EntryPosition: {x: 50, y: 120, z: 0}
   m_ExitPosition: {x: 40, y: 70, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
+<<<<<<<< HEAD:Assets/Animations/Enemy_Level4/Enemy Level 4 Animator Controller.controller
   m_DefaultState: {fileID: 7908119258505478109}
 --- !u!1101 &6172711029565578927
 AnimatorStateTransition:
+========
+  m_DefaultState: {fileID: 2303506810437608847}
+--- !u!91 &9100000
+AnimatorController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Enemy Animation Controler
+  serializedVersion: 5
+  m_AnimatorParameters:
+  - m_Name: HurtTrigger
+    m_Type: 9
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
+  - m_Name: AttackTrigger
+    m_Type: 9
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
+  m_AnimatorLayers:
+  - serializedVersion: 5
+    m_Name: Base Layer
+    m_StateMachine: {fileID: -2056360825761413359}
+    m_Mask: {fileID: 0}
+    m_Motions: []
+    m_Behaviours: []
+    m_BlendingMode: 0
+    m_SyncedLayerIndex: -1
+    m_DefaultWeight: 0
+    m_IKPass: 0
+    m_SyncedLayerAffectsTiming: 0
+    m_Controller: {fileID: 9100000}
+--- !u!1102 &2303506810437608847
+AnimatorState:
+  serializedVersion: 6
+>>>>>>>> 1bb0681f6ccf692cfc86d9bcee119cb9526059c3:Assets/Enemies/Enemy Animator/Level 1/Enemy Animation Controler.controller
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+<<<<<<<< HEAD:Assets/Animations/Enemy_Level4/Enemy Level 4 Animator Controller.controller
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
@@ -139,6 +217,29 @@ AnimatorStateTransition:
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
 --- !u!1101 &6658218815927964732
+========
+  m_Name: Enemy Lv1 Walk Animation
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions:
+  - {fileID: -4299927466879900366}
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: 617f52bd60186e540a2ec4a32cb890a5, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
+--- !u!1101 &8324168704088300895
+>>>>>>>> 1bb0681f6ccf692cfc86d9bcee119cb9526059c3:Assets/Enemies/Enemy Animator/Level 1/Enemy Animation Controler.controller
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -147,19 +248,28 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions: []
   m_DstStateMachine: {fileID: 0}
+<<<<<<<< HEAD:Assets/Animations/Enemy_Level4/Enemy Level 4 Animator Controller.controller
   m_DstState: {fileID: 7908119258505478109}
+========
+  m_DstState: {fileID: 2303506810437608847}
+>>>>>>>> 1bb0681f6ccf692cfc86d9bcee119cb9526059c3:Assets/Enemies/Enemy Animator/Level 1/Enemy Animation Controler.controller
   m_Solo: 0
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
   m_TransitionDuration: 0.25
   m_TransitionOffset: 0
+<<<<<<<< HEAD:Assets/Animations/Enemy_Level4/Enemy Level 4 Animator Controller.controller
   m_ExitTime: 0.5
+========
+  m_ExitTime: 0
+>>>>>>>> 1bb0681f6ccf692cfc86d9bcee119cb9526059c3:Assets/Enemies/Enemy Animator/Level 1/Enemy Animation Controler.controller
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+<<<<<<<< HEAD:Assets/Animations/Enemy_Level4/Enemy Level 4 Animator Controller.controller
 --- !u!1102 &7673606635579452169
 AnimatorState:
   serializedVersion: 6
@@ -215,3 +325,5 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+========
+>>>>>>>> 1bb0681f6ccf692cfc86d9bcee119cb9526059c3:Assets/Enemies/Enemy Animator/Level 1/Enemy Animation Controler.controller

@@ -370,6 +370,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdbd09b4e0157264fae0c3b0c03c30bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< HEAD
+=======
+  p1Inv:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+>>>>>>> 1bb0681f6ccf692cfc86d9bcee119cb9526059c3
 --- !u!95 &1526302993744688904
 Animator:
   serializedVersion: 7

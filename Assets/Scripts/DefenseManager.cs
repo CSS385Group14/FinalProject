@@ -1,4 +1,8 @@
 //OBSOLETE
+<<<<<<< HEAD
+=======
+
+>>>>>>> 1bb0681f6ccf692cfc86d9bcee119cb9526059c3
 // using UnityEngine;
 
 // public class DefenseManager : Placeable
