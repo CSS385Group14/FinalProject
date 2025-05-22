@@ -4,11 +4,17 @@
 TagManager:
   serializedVersion: 3
   tags:
-  - Enemy
   - Wall
   - Tower
   - Player 1
   - Player 2
+  - Enemy Level 1
+  - Enemy Level 2
+  - Enemy Level 3
+  - Enemy Level 4
+  - Enemy Level 5
+  - Enemy
+  - Obstacle
   layers:
   - Default
   - TransparentFX
@@ -16,8 +22,8 @@ TagManager:
   - Player
   - Water
   - UI
-  - 
-  - 
+  - Enemy
+  - Obstacle
   - 
   - 
   - 

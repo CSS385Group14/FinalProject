@@ -5,7 +5,7 @@ using UnityEngine;
 //   it flies off screen w/o hitting an enemy
 public class Projectile : MonoBehaviour
 {
-    public int projectileDamage = 10;
+    public int projectileDamage = 5;
     public float speed = 20f;
     public int projectileOwner;
     public Vector2 direction;
@@ -40,6 +40,7 @@ public class Projectile : MonoBehaviour
         {
             Enemy enemy = collision.gameObject.GetComponent<Enemy>();
             enemy.TakeDamage(projectileDamage, projectileOwner);
+           
             Destroy(gameObject);
         }
     }

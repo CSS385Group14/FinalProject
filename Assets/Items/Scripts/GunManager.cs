@@ -1,4 +1,6 @@
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GunManager : MonoBehaviour {
 
@@ -16,7 +18,7 @@ public class GunManager : MonoBehaviour {
     
     private void ProcessBulletSpawn() {
         Quaternion rotationOffset = Quaternion.Euler(0, 0, 90);
-        if (Input.GetKey(fireKey) && Time.time > nextFire) {
+        if ((Input.GetKey(fireKey)) && Time.time > nextFire) {
             GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation * rotationOffset);
             bullet.GetComponent<Bullet>().setDamage(damage);
             Rigidbody2D re = bullet.GetComponent<Rigidbody2D>();

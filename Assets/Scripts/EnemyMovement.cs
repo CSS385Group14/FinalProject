@@ -16,13 +16,18 @@ public class EnemyMovement : MonoBehaviour
     private Transform[] path;
     private int pathIndex = 0;  
     private MainTower mainTower;
-    private bool isStopped = false;
-    public bool lockedInCombat = false;
+
+    private bool stopRequestedExternally = false;
+    private bool stoppedByBarricade = false;
+
+    public bool lockedInCombat { get; set; } = false;
+
+    private bool isStopped => stopRequestedExternally || stoppedByBarricade;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        mainTower = GameObject.Find("Tower").GetComponent<MainTower>();
+        //mainTower = GameObject.Find("Tower").GetComponent<MainTower>();
     }
 
     public void InitPath(Transform[] pathArray)
@@ -58,11 +63,7 @@ public class EnemyMovement : MonoBehaviour
     }
     public void StopMovement(bool stop)
     {
-        isStopped = stop;
-        if (stop)
-        {
-            rb.linearVelocity = Vector2.zero;
-        }
+        stopRequestedExternally = stop;
     }
 
     void FixedUpdate()
@@ -82,29 +83,26 @@ public class EnemyMovement : MonoBehaviour
         if (!isStopped)
         {
             Vector2 direction = (target.position - transform.position).normalized;
-            rb.linearVelocity = direction * moveSpeed;
+            rb.velocity = direction * moveSpeed;
         }
         else
         {
-            rb.linearVelocity = Vector2.zero;
+            rb.velocity = Vector2.zero;
         }
     }
 
     // Attack when barricade is reached (Placeholder code)
     void OnTriggerEnter2D(Collider2D collision) {
         if (collision.CompareTag("Wall")) // if impacts a barricade
-        { 
-            isStopped = true;
+        {
+            stoppedByBarricade = true;
             StartCoroutine(AttackBarricade(collision.GetComponent<Barricade>()));
         }
 
-        if (collision.CompareTag("Tower")) // if impacts the main tower
-        {
-            mainTower.TakeDamage(towerDamageValue);
-        }
-    }
 
-    void OnTriggerStay2D(Collider2D collision)
+    }
+    //We dont need this since it is already handle attack player in enemy scripts
+    /*void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.CompareTag("Player")) // keep attacking the player if it remains in contact
         {
@@ -113,8 +111,8 @@ public class EnemyMovement : MonoBehaviour
                 nextFireTime = Time.time + attackCooldown;
                 collision.GetComponent<PlayerController>().TakeDamage(playerDamageValue);
             }
-        }
-    }
+        }*/
+    
 
     // should create a custom type in which attackable entities inherit from
     // so we do not need to create multiple attack methods (if we ever need to
@@ -125,7 +123,6 @@ public class EnemyMovement : MonoBehaviour
             barricade.TakeDamage(2);
             yield return new WaitForSeconds(attackCooldown); // wait in between attacks
         }
-
-        isStopped = false;
+        stoppedByBarricade = false;
     }
 }
