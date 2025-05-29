@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class HealthbarController : MonoBehaviour
 {
     [Range(0, 100)]
-    public int playerMaxHealth = 100;
+    public float playerMaxHealth = 100f;
     public float playerCurrentHealth;
     public int playerNumber = 1;
     private Image playerHealthFillImage;
@@ -16,13 +16,7 @@ public class HealthbarController : MonoBehaviour
         UpdateHealthUI();
     }
 
-    public void HealPlayer(int amount)
-    {
-        playerCurrentHealth = Mathf.Min(playerCurrentHealth + amount, playerMaxHealth);
-        UpdateHealthUI();
-    }
-
-    public void TakePlayerDamage(int amount)
+    public void TakePlayerDamage(float amount)
     {
         playerCurrentHealth = Mathf.Max(playerCurrentHealth - amount, 0);
         UpdateHealthUI();

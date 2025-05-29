@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 8626967725410404886}
   m_Layer: 0
   m_Name: Enemy Lv2
-  m_TagString: Enemy
+  m_TagString: Enemy Level 2
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -194,8 +194,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e598466afc3f534e82e797524aa8145, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  statsSO: {fileID: 11400000, guid: a4bfa385c38d04944b1d1a980e1f3580, type: 2}
+  maxHealth: 500
+  xpValue: 150
+  goldValue: 5
   player: {fileID: 0}
+  health: 0
+  attackRate: 1
 --- !u!95 &8626967725410404886
 Animator:
   serializedVersion: 7

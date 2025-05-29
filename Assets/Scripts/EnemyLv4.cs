@@ -1,128 +1,148 @@
 using UnityEngine;
 
-public class EnemyLv4 : BaseEnemy
+public class EnemyLv4 : MonoBehaviour
 {
-    private Animator animator;
+    // Existing variables
+    public int maxHealth = 500;
+    public int xpValue = 250;
+    public int goldValue = 20;
+    public PlayerController player;
+    private int lastHitPlayer;
+    Animator animator;
+    public int health;
     private SpriteRenderer spriteRenderer;
-    private EnemyChase movement;
+    private float detectionRangePlayer = 2f;
+    private float detectionRangeTower = 6f;
+    private float nextAttackTime;
+    private int damageAmount = 70;
+    private float attackSpeed = 1f;
+    public float attackRate = 1f;
     private GameManager gameManager;
-
     private GameObject player1;
     private GameObject player2;
     private GameObject tower;
     private GameObject currentTarget;
+    private EnemyChase movement;
 
-    private float nextAttackTime;
-    private int lastHitPlayer;
-
+    // Added chase variable
     private float chaseRangePlayer = 5f;
 
-    protected override void Start()
+    void Start()
     {
-        base.Start();
-
         animator = GetComponent<Animator>();
+        health = maxHealth;
         spriteRenderer = GetComponent<SpriteRenderer>();
+        nextAttackTime = Time.time;
         movement = GetComponent<EnemyChase>();
+
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         tower = GameObject.Find("Tower");
-
-        nextAttackTime = Time.time;
     }
 
-    protected override void Update()
+    void Update()
     {
-        base.Update();
-
-        if (tower == null || !gameManager.gameStart) return;
-
-        if (currentHP <= 0)
+        if (tower != null)
         {
-            HandleDeath();
-        }
-
-        UpdateTargets();
-        HandleCombat();
-        //
-    }
-
-    private void UpdateTargets()
-    {
-        player1 = GameObject.Find("Player1(Clone)");
-        if (gameManager.isCoopEnabled)
-        {
-            player2 = GameObject.Find("Player2(Clone)");
-        }
-    }
-
-    private void HandleCombat()
-    {
-        bool isPlayer1Dead = player1?.GetComponent<PlayerController>().isDead ?? true;
-        bool isPlayer2Dead = player2?.GetComponent<PlayerController>().isDead ?? true;
-
-        float distanceToTower = Vector2.Distance(transform.position, tower.transform.position);
-        float distanceToPlayer1 = player1 != null ? Vector2.Distance(transform.position, player1.transform.position) : Mathf.Infinity;
-        float distanceToPlayer2 = player2 != null ? Vector2.Distance(transform.position, player2.transform.position) : Mathf.Infinity;
-
-        bool towerInRange = distanceToTower <= statsSO.detectionRangeTower;
-        bool player1InRange = distanceToPlayer1 <= statsSO.detectionRangePlayer && Mathf.Abs(transform.position.y - player1.transform.position.y) < 1.5f;
-        bool player2InRange = distanceToPlayer2 <= statsSO.detectionRangePlayer && Mathf.Abs(transform.position.y - player2.transform.position.y) < 1.5f;
-
-        bool anyTargetInRange = towerInRange || (player1InRange && !isPlayer1Dead) || (player2InRange && !isPlayer2Dead);
-
-        movement?.StopMovement(anyTargetInRange);
-        movement.lockedInCombat = anyTargetInRange;
-
-        if (towerInRange)
-        {
-            base.SetTargetToTower();
-            TryAttack(tower);
-        }
-        else if (player1InRange && !isPlayer1Dead)
-        {
-            base.SetTargetToPlayer1();
-            TryAttack(player1);
-        }
-        else if (player2InRange && !isPlayer2Dead)
-        {
-            base.SetTargetToPlayer2();
-            TryAttack(player2);
-        }
-        else
-        {
-            currentTarget = null;
-            HandleChase(distanceToPlayer1, distanceToPlayer2, isPlayer1Dead, isPlayer2Dead);
-        }
-    }
-
-    private void HandleChase(float distanceToPlayer1, float distanceToPlayer2, bool isPlayer1Dead, bool isPlayer2Dead)
-    {
-        bool player1Chase = distanceToPlayer1 <= chaseRangePlayer && !isPlayer1Dead;
-        bool player2Chase = distanceToPlayer2 <= chaseRangePlayer && !isPlayer2Dead;
-
-        if (player1Chase || player2Chase)
-        {
-            GameObject chaseTarget = player1Chase ? player1 : player2;
-            if (player1Chase && player2Chase)
+            if (health < 1)
             {
-                chaseTarget = (distanceToPlayer1 < distanceToPlayer2) ? player1 : player2;
+                player = GameObject.Find("Player" + lastHitPlayer + "(Clone)")?.GetComponent<PlayerController>();
+                if (player != null)
+                {
+                    player.GainXP(xpValue);
+                    player.GainGold(goldValue);
+                }
+                EnemySpawner.onEnemyDestroy?.Invoke();
+                Destroy(gameObject);
+                return;
             }
-            currentTarget = chaseTarget;
-            movement.ChaseTarget(chaseTarget.transform);
-        }
-        else
-        {
-            movement.ResumeWaypoints();
-            currentTarget = tower;
+
+            if (gameManager.gameStart)
+            {
+                bool isPlayer1Dead;
+                bool isPlayer2Dead = false;
+
+                player1 = GameObject.Find("Player1(Clone)");
+                isPlayer1Dead = player1.GetComponent<PlayerController>().isDead;
+                if (gameManager.isCoopEnabled)
+                {
+                    player2 = GameObject.Find("Player2(Clone)");
+                    isPlayer2Dead = player2.GetComponent<PlayerController>().isDead;
+                }
+
+                float distanceToTower = Vector2.Distance(transform.position, tower.transform.position);
+                float distanceToPlayer1 = Vector2.Distance(transform.position, player1.transform.position);
+                float distanceToPlayer2 = player2 != null ? Vector2.Distance(transform.position, player2.transform.position) : Mathf.Infinity;
+
+                bool towerInRange = distanceToTower <= detectionRangeTower;
+                bool player1InRange = distanceToPlayer1 <= detectionRangePlayer && Mathf.Abs(transform.position.y - player1.transform.position.y) < 1.5f;
+                bool player2InRange = player2 != null && distanceToPlayer2 <= detectionRangePlayer && Mathf.Abs(transform.position.y - player2.transform.position.y) < 1.5f;
+
+                bool anyTargetInRange = towerInRange || (player1InRange && !isPlayer1Dead) || (player2InRange && !isPlayer2Dead);
+
+                movement?.StopMovement(anyTargetInRange);
+                movement.lockedInCombat = anyTargetInRange;
+
+                if (towerInRange)
+                {
+                    SetTargetToTower();
+                    TryAttack(tower);
+                }
+                else if (player1InRange && !isPlayer1Dead)
+                {
+                    SetTargetToPlayer1();
+                    TryAttack(player1);
+                }
+                else if (player2InRange && !isPlayer2Dead)
+                {
+                    SetTargetToPlayer2();
+                    TryAttack(player2);
+                }
+                else
+                {
+                    currentTarget = null;
+
+                    // Added chase logic
+                    bool player1Chase = distanceToPlayer1 <= chaseRangePlayer && !isPlayer1Dead;
+                    bool player2Chase = player2 != null && distanceToPlayer2 <= chaseRangePlayer && !isPlayer2Dead;
+
+                    if (player1Chase || player2Chase)
+                    {
+                        GameObject chaseTarget = player1Chase ? player1 : player2;
+                        if (player1Chase && player2Chase)
+                        {
+                            chaseTarget = (distanceToPlayer1 < distanceToPlayer2) ? player1 : player2;
+                        }
+                        currentTarget = chaseTarget;
+                        movement.ChaseTarget(chaseTarget.transform);
+                    }
+                    else
+                    {
+                        movement.ResumeWaypoints();
+                        currentTarget = tower;
+                    }
+                }
+            }
         }
     }
+
+    // Rest of original methods remain unchanged
+    public void SetTargets(GameObject p1, GameObject p2, GameObject tower)
+    {
+        player1 = p1;
+        player2 = p2;
+        this.tower = tower;
+    }
+
+    private void SetTargetToPlayer1() => currentTarget = player1;
+    private void SetTargetToPlayer2() => currentTarget = player2;
+    private void SetTargetToTower() => currentTarget = tower;
 
     private void TryAttack(GameObject target)
     {
         if (Time.time > nextAttackTime)
         {
             Attack(target);
-            nextAttackTime = Time.time + statsSO.attackRate;
+            nextAttackTime = Time.time + attackRate;
         }
     }
 
@@ -132,45 +152,39 @@ public class EnemyLv4 : BaseEnemy
         currentTarget = target;
     }
 
-    public override void TakeDamage(int damage, int ownerID)
+    public void TakeDamage(int damage, int owner)
     {
-        currentHP -= damage;
         animator?.SetTrigger("HurtTrigger");
-        lastHitPlayer = ownerID;
+        lastHitPlayer = owner;
+        health -= damage;
     }
 
     public void DealDamage()
     {
         if (currentTarget == null) return;
 
-        float attackRange = statsSO.detectionRangePlayer;
+        // Check distance to currentTarget before dealing damage
+        float attackRange = detectionRangePlayer; // or another appropriate range
         float distanceToTarget = Vector2.Distance(transform.position, currentTarget.transform.position);
 
-        if (distanceToTarget > attackRange) return;
+        // Only deal damage if target is still in attack range
+        if (distanceToTarget > attackRange)
+        {
+            return; // Target moved out of range, don't deal damage
+        }
 
         PlayerController targetPlayer = currentTarget.GetComponent<PlayerController>();
         MainTower targetTower = currentTarget.GetComponent<MainTower>();
 
+        // Also, optionally check if target is alive before applying damage
         if (targetPlayer != null && !targetPlayer.isDead)
         {
-            targetPlayer.TakeDamage(statsSO.damageAmount);
+            targetPlayer.TakeDamage(damageAmount);
         }
         else if (targetTower != null)
         {
-            targetTower.TakeDamage(statsSO.damageAmount);
+            targetTower.TakeDamage(damageAmount);
         }
     }
 
-    private void HandleDeath()
-    {
-        PlayerController player = GameObject.Find("Player" + lastHitPlayer + "(Clone)")?.GetComponent<PlayerController>();
-        Debug.Log("Last hit player: " + lastHitPlayer);
-        if (player != null)
-        {
-            player.GainXP(statsSO.xpValue);
-            player.GainGold(statsSO.goldValue);
-        }
-        EnemySpawner.onEnemyDestroy?.Invoke();
-        Destroy(gameObject);
-    }
 }

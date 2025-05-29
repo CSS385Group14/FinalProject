@@ -15,7 +15,6 @@ TagManager:
   - Enemy Level 5
   - Enemy
   - Obstacle
-  - BuildZone
   layers:
   - Default
   - TransparentFX

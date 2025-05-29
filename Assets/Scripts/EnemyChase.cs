@@ -1,11 +1,11 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyChase : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private Rigidbody2D rb;
-    [SerializeField] private GameObject[] startPoints; // Random spawn points
 
     [Header("Attributes")]
     [SerializeField] private float moveSpeed = 2f;
@@ -13,28 +13,31 @@ public class EnemyChase : MonoBehaviour
     public int towerDamageValue = 10;
     public int playerDamageValue = 5;
 
-    private Transform[] path;
-    private int pathIndex = 0;
-    private Transform target;
-    private Vector2 currentDestination;
-
+    // Chase system additions
     private Transform chaseTarget;
     private bool isChasing = false;
+
+    private Transform target;
+    private float nextFireTime = 0f;
+    private Transform[] path;
+    private int pathIndex = 0;
+    private MainTower mainTower;
     private bool stopRequestedExternally = false;
     private bool stoppedByBarricade = false;
 
     public bool lockedInCombat { get; set; } = false;
     private bool isStopped => stopRequestedExternally || stoppedByBarricade;
-
+    private Vector2 currentDestination;
     void Start()
     {
-        StartCoroutine(RecalculatePathRoutine());
+        StartCoroutine(RecalculatePath());
     }
 
     void Update()
     {
-        if (isChasing || isStopped || path == null || target == null)
-            return;
+        if (isChasing) return;
+
+        if (path == null || target == null || isStopped) return;
 
         if (Vector2.Distance(transform.position, target.position) <= 0.1f)
         {
@@ -51,25 +54,50 @@ public class EnemyChase : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (isStopped)
+        if (isChasing)
         {
-            rb.linearVelocity = Vector2.zero;
+            if (chaseTarget != null && !isStopped)
+            {
+                Vector2 direction = (chaseTarget.position - transform.position).normalized;
+                direction = ObstacleAvoidance(direction);
+                rb.velocity = direction * moveSpeed;
+            }
             return;
         }
 
-        Vector2 direction = Vector2.zero;
+        if (target == null || path == null) return;
 
-        if (isChasing && chaseTarget != null)
+        if (!isStopped)
         {
-            direction = (chaseTarget.position - transform.position).normalized;
+            Vector2 direction = (target.position - transform.position).normalized;
+            direction = ObstacleAvoidance(direction);
+            rb.velocity = direction * moveSpeed;
         }
-        else if (target != null)
+        else
         {
-            direction = (target.position - transform.position).normalized;
+            rb.velocity = Vector2.zero;
         }
+    }
 
-        direction = ObstacleAvoidance(direction);
-        rb.linearVelocity = direction * moveSpeed;
+    private IEnumerator RecalculatePath()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(2f);
+
+            if (isChasing || path == null || pathIndex >= path.Length) continue;
+
+            RaycastHit2D hit = Physics2D.Linecast(
+                transform.position,
+                path[pathIndex].position,
+                LayerMask.GetMask("Obstacle")
+            );
+
+            if (hit.collider != null && pathIndex > 1)
+            {
+                pathIndex--;
+            }
+        }
     }
 
     private Vector2 ObstacleAvoidance(Vector2 currentDirection)
@@ -96,7 +124,7 @@ public class EnemyChase : MonoBehaviour
                 Vector2 avoidDir = Vector2.Perpendicular(hit.normal).normalized;
                 Vector2[] testDirs = { avoidDir, -avoidDir };
 
-                foreach (var testDir in testDirs)
+                foreach (Vector2 testDir in testDirs)
                 {
                     if (!Physics2D.Raycast(transform.position, testDir, rayDistance, LayerMask.GetMask("Obstacle")))
                     {
@@ -106,53 +134,7 @@ public class EnemyChase : MonoBehaviour
                 }
             }
         }
-
         return bestDirection;
-    }
-
-    private IEnumerator RecalculatePathRoutine()
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(2f);
-
-            if (isChasing || path == null || pathIndex >= path.Length) continue;
-
-            RaycastHit2D hit = Physics2D.Linecast(
-                transform.position,
-                path[pathIndex].position,
-                LayerMask.GetMask("Obstacle")
-            );
-
-            if (hit.collider != null && pathIndex > 1)
-                pathIndex--;
-        }
-    }
-
-    public void InitPath(Transform[] pathArray)
-    {
-        path = pathArray;
-        pathIndex = 0;
-
-        if (path.Length > 0)
-        {
-            // Choose random start position
-            if (startPoints != null && startPoints.Length > 0)
-            {
-                int randomIndex = Random.Range(0, startPoints.Length);
-                transform.position = startPoints[randomIndex].transform.position;
-
-            }
-            else
-            {
-                transform.position = path[0].position;
-            }
-
-            currentDestination = path[path.Length - 1].position;
-            pathIndex = 1;
-            if (path.Length > 1)
-                target = path[pathIndex];
-        }
     }
 
     public void ChaseTarget(Transform target)
@@ -166,11 +148,15 @@ public class EnemyChase : MonoBehaviour
         isChasing = false;
         chaseTarget = null;
 
+        // Instead of returning to waypoints, continue toward final destination
         if (path != null && path.Length > 0)
         {
+            // Create temporary target at current destination
             GameObject tempTarget = new GameObject("TempTarget");
             tempTarget.transform.position = currentDestination;
             target = tempTarget.transform;
+
+            // Clean up temporary target when we reach it
             StartCoroutine(CleanupTempTarget(tempTarget));
         }
     }
@@ -181,12 +167,26 @@ public class EnemyChase : MonoBehaviour
         {
             yield return null;
         }
-
         Destroy(targetObj);
 
+        // If we somehow didn't reach the real destination, fallback to original path
         if (path != null && pathIndex < path.Length)
         {
             target = path[pathIndex];
+        }
+    }
+
+    // Modified path initialization
+    public void InitPath(Transform[] pathArray)
+    {
+        path = pathArray;
+        pathIndex = 0;
+        if (path.Length > 0)
+        {
+            transform.position = path[0].position;
+            currentDestination = path[path.Length - 1].position;
+            target = path[1];
+            pathIndex = 1;
         }
     }
 
@@ -211,7 +211,6 @@ public class EnemyChase : MonoBehaviour
             barricade.TakeDamage(2);
             yield return new WaitForSeconds(attackCooldown);
         }
-
         stoppedByBarricade = false;
     }
 }

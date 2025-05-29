@@ -38,7 +38,7 @@ public class Projectile : MonoBehaviour
         // and let enemy take damage
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            BaseEnemy enemy = collision.gameObject.GetComponent<BaseEnemy>();
+            Enemy enemy = collision.gameObject.GetComponent<Enemy>();
             enemy.TakeDamage(projectileDamage, projectileOwner);
            
             Destroy(gameObject);

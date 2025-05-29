@@ -83,11 +83,11 @@ public class EnemyMovement : MonoBehaviour
         if (!isStopped)
         {
             Vector2 direction = (target.position - transform.position).normalized;
-            rb.linearVelocity = direction * moveSpeed;
+            rb.velocity = direction * moveSpeed;
         }
         else
         {
-            rb.linearVelocity = Vector2.zero;
+            rb.velocity = Vector2.zero;
         }
     }
 

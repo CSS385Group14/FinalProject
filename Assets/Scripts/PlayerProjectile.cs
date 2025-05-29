@@ -30,15 +30,37 @@ public class PlayerProjectile : MonoBehaviour
     {
         // check if projectile hits an Enemy object, destroy projectile
         // and let enemy take damage
-        if (collision.gameObject.CompareTag("Enemy"))
+        if (collision.gameObject.CompareTag("Enemy Level 1"))
         {
-            BaseEnemy enemy = collision.gameObject.GetComponent<BaseEnemy>();
+            Enemy enemy = collision.gameObject.GetComponent<Enemy>();
    
             enemy.TakeDamage(projectileDamage, projectileOwner);
 
             Destroy(gameObject);
         }
-      
+        if (collision.gameObject.CompareTag("Enemy Level 2"))
+        {
+            //Enemy enemy = collision.gameObject.GetComponent<Enemy>();
+            EnemyLv2 enemy2 = collision.gameObject.GetComponent<EnemyLv2>();
+            enemy2.TakeDamage(projectileDamage, projectileOwner);
+
+            Destroy(gameObject);
+        }
+        if (collision.gameObject.CompareTag("Enemy Level 3")) {
+            EnemyLv3 enemy3 = collision.gameObject.GetComponent<EnemyLv3>();
+
+            enemy3.TakeDamage(projectileDamage, projectileOwner);
+
+            Destroy(gameObject);
+        }
+        if (collision.gameObject.CompareTag("Enemy Level 4"))
+        {
+            EnemyLv4 enemy4 = collision.gameObject.GetComponent<EnemyLv4>();
+
+            enemy4.TakeDamage(projectileDamage, projectileOwner);
+
+            Destroy(gameObject);
+        }
     }
 
     public void SetDamage(int damage)

@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: -3164928885876565501}
   m_Layer: 0
   m_Name: Enemy Lv3
-  m_TagString: Enemy
+  m_TagString: Enemy Level 3
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -216,6 +216,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92e1234b5c7651d418a79ab206247c35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  statsSO: {fileID: 11400000, guid: 68fb3d8e688d6c24da6adfb56a6fd64b, type: 2}
+  maxHealth: 1000
+  xpValue: 100
+  goldValue: 2
+  player: {fileID: 0}
+  health: 0
+  detectionRangePlayer: 4
+  detectionRangeTower: 9
   projectilePrefab: {fileID: 8123427581810025441, guid: 0e5c86435ec0b364fbd2979620a58023, type: 3}
   firePoint: {fileID: 7471393382108014736}
+  fireSpeed: 5
+  fireRate: 3

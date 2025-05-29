@@ -20,20 +20,50 @@ public class PlayerAttackManager : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Enemy"))
+        if (other.CompareTag("Enemy Level 1"))
         {
             enemiesInRange.Add(other.transform);
-
+        }
+        if (other.CompareTag("Enemy Level 2"))
+        {
+            enemiesInRange.Add(other.transform);
+        }
+        if (other.CompareTag("Enemy Level 3"))
+        {
+            enemiesInRange.Add(other.transform);
+        }
+        if (other.CompareTag("Enemy Level 4"))
+        {
+            enemiesInRange.Add(other.transform);
+        }
+        if (other.CompareTag("Enemy Level 5"))
+        {
+            enemiesInRange.Add(other.transform);
         }
     }
 
     void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("Enemy"))
+        if (other.CompareTag("Enemy Level 1"))
         {
             enemiesInRange.Remove(other.transform);
         }
-       
+        if (other.CompareTag("Enemy Level 2"))
+        {
+            enemiesInRange.Remove(other.transform);
+        }
+        if (other.CompareTag("Enemy Level 3"))
+        {
+            enemiesInRange.Remove(other.transform);
+        }
+        if (other.CompareTag("Enemy Level 4"))
+        {
+            enemiesInRange.Remove(other.transform);
+        }
+        if (other.CompareTag("Enemy Level 5"))
+        {
+            enemiesInRange.Remove(other.transform);
+        }
     }
 
     public Transform GetClosestEnemyTransformToAttack()

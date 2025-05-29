@@ -38,20 +38,8 @@ public class InventoryManager : MonoBehaviour
 
             if (placeable != null) // is this prefab a Placeable?
             {
-                for (int i = 0; i < inv.Length; i++) // turn other BGs white so only one is yellow at a time
-                {
-                    GameObject otherInvBG = GameObject.Find("P" + playerNumber + "ItemBG" + i);
-                    Color newColor;
-
-                    if (ColorUtility.TryParseHtmlString("#D1D1D1", out newColor)) {
-                        otherInvBG.GetComponent<Image>().color = newColor;
-                    }
-                }
-                
-                GameObject invBG = GameObject.Find("P" + playerNumber + "ItemBG" + index);
-                invBG.GetComponent<Image>().color = Color.yellow;
                 gameObject.GetComponent<PlayerController>().placeable = placeable; // change equipped Placeable
-                Debug.Log("selected " + gameObject.GetComponent<PlayerController>().placeable.name); // DELETE
+                Debug.Log("selected + " + gameObject.GetComponent<PlayerController>().placeable.name); // DELETE
             }
             else
             {

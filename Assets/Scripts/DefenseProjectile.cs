@@ -56,7 +56,7 @@ public class DefenseProjectile : MonoBehaviour
         // if the target still exists and is within a hit radius
         if (target != null && Vector2.Distance(transform.position, target.position) < hitRadius)
         {
-            BaseEnemy enemy = target.GetComponent<BaseEnemy>();
+            Enemy enemy = target.GetComponent<Enemy>();
             enemy.TakeDamage(damage, playerNumber);
             Destroy(gameObject);
         }
