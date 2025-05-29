@@ -68,7 +68,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 4
+  m_Radius: 2.4
 --- !u!114 &7545668179655138012
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -107,8 +107,8 @@ Transform:
   m_GameObject: {fileID: 6635671086524870418}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.0029997826, y: -0.0029997826, z: 0}
-  m_LocalScale: {x: 1.20388, y: 1.20388, z: 1.20388}
+  m_LocalPosition: {x: 0.058, y: -0.17, z: 0}
+  m_LocalScale: {x: 0.51628184, y: 0.51628184, z: 0.51628184}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3020739617789722073}
@@ -158,7 +158,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 15
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 0.9064038, b: 0, a: 1}
+  m_Color: {r: 1, g: 0, b: 0.06774902, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -201,7 +201,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -4.56, y: -6.72, z: 0}
-  m_LocalScale: {x: 8.046295, y: 8.046295, z: 8.046295}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 7056853053272193968}
@@ -251,13 +251,13 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 20
-  m_Sprite: {fileID: 3254134716894865524, guid: 7ecd9583129962d41bb22937ac118bf9, type: 3}
+  m_SortingOrder: 21
+  m_Sprite: {fileID: 4723107735738678597, guid: aa5c17a3511422448a3e323582ebd4ae, type: 3}
   m_Color: {r: 0.740566, g: 0.7937218, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.17, y: 0.28}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -275,18 +275,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0c5b981dd3efdc4fbf5549e116edd7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectilePrefab: {fileID: 1344375442379186138, guid: 39c1a1ea5ad7f404080f46ce20d42c77, type: 3}
-  effectPrefab: {fileID: 5373032674524813074, guid: e0fc02f028b4d0a4c8c2eeb94e4e981a, type: 3}
+  projectilePrefab: {fileID: 951289578112271396, guid: 90444dd189fa458498a8a6bc13371c8d, type: 3}
+  effectPrefab: {fileID: 951289578112271396, guid: 90444dd189fa458498a8a6bc13371c8d, type: 3}
   speed: 5
   isPlayerOne: 1
   isDead: 0
   playerXP: 0
   playerGold: 100
-  playerHP: 100
+  playerMaxHP: 100
   level: 1
   fireRate: 1
-  weaponDamage: 50
-  weaponProjectileSpeed: 35
+  weaponDamage: 10
+  weaponProjectileSpeed: 20
   xBound: 22.08901
   yBound: 12.305
   placeable: {fileID: 0}
@@ -324,8 +324,8 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Radius: 0.5
+  m_Offset: {x: 0.07349825, y: -0.17794454}
+  m_Radius: 0.38781774
 --- !u!114 &-6079370537716212643
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -370,12 +370,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdbd09b4e0157264fae0c3b0c03c30bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  p1Inv:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
 --- !u!95 &1526302993744688904
 Animator:
   serializedVersion: 7
@@ -386,7 +380,7 @@ Animator:
   m_GameObject: {fileID: 9010902448063006195}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 496f6de403ed8e8469065ec3c88dfd48, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

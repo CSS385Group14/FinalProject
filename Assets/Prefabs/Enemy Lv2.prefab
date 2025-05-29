@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 4343109868267043643}
   - component: {fileID: 901215827975430655}
   - component: {fileID: 8323280872762273235}
+  - component: {fileID: -1446743638325467064}
+  - component: {fileID: 8626967725410404886}
   m_Layer: 0
   m_Name: Enemy Lv2
   m_TagString: Enemy
@@ -149,11 +151,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 8323280872762273235}
-  moveSpeed: 2
+  moveSpeed: 1
   attackCooldown: 0.2
   towerDamageValue: 10
   playerDamageValue: 5
-  lockedInCombat: 0
 --- !u!50 &8323280872762273235
 Rigidbody2D:
   serializedVersion: 5
@@ -180,4 +181,40 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
+--- !u!114 &-1446743638325467064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 286199206090773681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e598466afc3f534e82e797524aa8145, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  statsSO: {fileID: 11400000, guid: a4bfa385c38d04944b1d1a980e1f3580, type: 2}
+  player: {fileID: 0}
+--- !u!95 &8626967725410404886
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 286199206090773681}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ba525d77db949cb45b4efe5bbaa4cc58, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

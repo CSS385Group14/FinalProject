@@ -173,23 +173,33 @@ public class EnemySpawner : MonoBehaviour
         enemiesToSpawnPerLevel[selectedLevel]--;
 
         GameObject enemyObj = Instantiate(prefab, PathManager.main.startPoint.position, Quaternion.identity);
+        Transform[] path = PathManager.main.GetRandomPath();
 
-        EnemyMovement enemy = enemyObj.GetComponent<EnemyMovement>();
-        if (enemy != null)
+        // Assign movement script
+        if (selectedLevel == 4) // Enemy level 4 (index 3)
         {
-            Transform[] path = PathManager.main.GetRandomPath();
-            if (path != null && path.Length > 1)
+            EnemyChase chaseEnemy = enemyObj.GetComponent<EnemyChase>();
+            if (chaseEnemy != null && path != null && path.Length > 1)
             {
-                enemy.InitPath(path);
-            }
-
-            Enemy enemyScript = enemyObj.GetComponent<Enemy>();
-            if (enemyScript != null)
-            {
-                enemyScript.SetTargets(player1, player2, tower);
+                chaseEnemy.InitPath(path);
             }
         }
+        else
+        {
+            EnemyMovement moveEnemy = enemyObj.GetComponent<EnemyMovement>();
+            if (moveEnemy != null && path != null && path.Length > 1)
+            {
+                moveEnemy.InitPath(path);
+            }
+        }
+
+        // Assign targets based on enemy level
+        
+        BaseEnemy enemy = enemyObj.GetComponent<BaseEnemy>();
+        if (enemy != null) enemy.SetTargets(player1, player2, tower);
+
     }
+
 
     private int GetRandomAvailableEnemyLevel()
     {
@@ -214,6 +224,13 @@ public class EnemySpawner : MonoBehaviour
         {
             gameStarted = true;
             StartCoroutine(StartWave());
+        }
+    }
+    public void StopSpawning()
+    {
+        if (gameStarted)
+        {
+            gameStarted = false;
         }
     }
 }

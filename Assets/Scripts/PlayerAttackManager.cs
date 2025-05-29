@@ -6,11 +6,24 @@ public class PlayerAttackManager : MonoBehaviour
     // store all enemies that are in range of player
     private List<Transform> enemiesInRange = new List<Transform>();
 
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Enemy"))
         {
             enemiesInRange.Add(other.transform);
+
         }
     }
 
@@ -20,6 +33,7 @@ public class PlayerAttackManager : MonoBehaviour
         {
             enemiesInRange.Remove(other.transform);
         }
+       
     }
 
     public Transform GetClosestEnemyTransformToAttack()

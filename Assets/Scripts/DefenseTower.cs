@@ -19,8 +19,9 @@ public class DefenseTower : Placeable
 
         if (player.DeductGold(goldCost))
         {
-            SetOwner(playerNumber);
-            Instantiate(gameObject, playerTransform.position, transform.rotation);
+            GameObject instance = Instantiate(gameObject, playerTransform.position, transform.rotation);
+            DefenseTower defTower = instance.GetComponent<DefenseTower>();
+            defTower.SetOwner(playerNumber);
         }
     }
 

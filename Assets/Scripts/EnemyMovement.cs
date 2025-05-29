@@ -27,7 +27,7 @@ public class EnemyMovement : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        mainTower = GameObject.Find("Tower").GetComponent<MainTower>();
+        //mainTower = GameObject.Find("Tower").GetComponent<MainTower>();
     }
 
     public void InitPath(Transform[] pathArray)
@@ -99,10 +99,7 @@ public class EnemyMovement : MonoBehaviour
             StartCoroutine(AttackBarricade(collision.GetComponent<Barricade>()));
         }
 
-        if (collision.CompareTag("Tower")) // if impacts the main tower
-        {
-            mainTower.TakeDamage(towerDamageValue);
-        }
+
     }
     //We dont need this since it is already handle attack player in enemy scripts
     /*void OnTriggerStay2D(Collider2D collision)
@@ -114,8 +111,8 @@ public class EnemyMovement : MonoBehaviour
                 nextFireTime = Time.time + attackCooldown;
                 collision.GetComponent<PlayerController>().TakeDamage(playerDamageValue);
             }
-        }
-    }*/
+        }*/
+    
 
     // should create a custom type in which attackable entities inherit from
     // so we do not need to create multiple attack methods (if we ever need to

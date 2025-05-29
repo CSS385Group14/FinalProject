@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
     public bool isDead = false;
     public int playerXP = 0;
     public int playerGold = 100;
-    public int playerHP = 100;
+    public int playerMaxHP = 100;
     public int level = 1;
     public float fireRate = 1f; // seconds between shots
     public int weaponDamage = 5; // damage of player projectiles
@@ -18,27 +18,31 @@ public class PlayerController : MonoBehaviour
     public float xBound = 22.08901f;
     public float yBound = 12.305f;
     private float nextFireTime = 0f;
+    private int validBuildZoneCount = 1; // 1 for testing purposes, make 0 later
+    private int currentHP = 100;
     private GameManager gameManager;
+    //private DefenseManager defenseManager;
     private InventoryManager inventoryManager;
     private PlayerAttackManager playerAttackManager;
     private HealthbarController hpBarController;
     private XPBarController xpBarController;
     private Vector2 lastMoveDirection;
     private GameObject deathUI;
-    private int playerNumber;
+    private int playerNumber = 1;
     private float horizontalInput;
     private float verticalInput;
-    public Placeable placeable; // equipped placeable item
-
+    public Placeable placeable;
+    Animator animator;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        //defenseManager = GameObject.Find("LevelManager").GetComponent<DefenseManager>();
         playerAttackManager = transform.Find("FireRange").GetComponent<PlayerAttackManager>();
-        inventoryManager = gameObject.GetComponent<InventoryManager>();
+        inventoryManager = transform.GetComponent<InventoryManager>();
         hpBarController = transform.GetComponent<HealthbarController>();
         xpBarController = transform.GetComponent<XPBarController>();
-
+        animator = GetComponent<Animator>();
         // get player numbers
         if (isPlayerOne) // is player 1
         {
@@ -64,8 +68,10 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        if (playerHP < 1) // check health
+
+        if (currentHP < 1) // check health
         {
+            animator.SetTrigger("DeadTrigger");
             gameManager.playersAlive--;
             Debug.Log("Players alive: " + gameManager.playersAlive);
 
@@ -82,43 +88,17 @@ public class PlayerController : MonoBehaviour
         verticalInput = Input.GetAxis("VerticalP" + playerNumber);
         Vector2 moveInput = new Vector2(horizontalInput, verticalInput);
 
-        // arrow movements
-        if (!isPlayerOne)
-        {
-            horizontalInput = Input.GetAxis("HorizontalP2Arrows");
-            verticalInput = Input.GetAxis("VerticalP2Arrows");
-            Vector2 moveInputArrows = new Vector2(horizontalInput, verticalInput);
-
-            if (moveInputArrows.sqrMagnitude > 0.001f)
-            {
-                // get the last move direction for the projectile fired
-                lastMoveDirection = moveInputArrows.normalized;
-
-                // rotate sprite to face the movement direction
-                float angle = Mathf.Atan2(lastMoveDirection.y, lastMoveDirection.x) * Mathf.Rad2Deg;
-                transform.rotation = Quaternion.Euler(0, 0, angle - 90);
-            }
-
-                // interpret player control of the game object
-            transform.position += new Vector3(moveInputArrows.x, moveInputArrows.y, 0) * speed * Time.deltaTime;
-
-            // interpret player control of the game object
-            transform.position += new Vector3(moveInputArrows.x, moveInputArrows.y, 0) * speed * Time.deltaTime;
-        }
-
-        // only update lastMoveDirection if there's movement
+        // // only update lastMoveDirection if there's movement
         if (moveInput.sqrMagnitude > 0.001f)
         {
-            // get the last move direction for the projectile fired
+            //     // get the last move direction for the projectile fired
             lastMoveDirection = moveInput.normalized;
 
-            // rotate sprite to face the movement direction
-            float angle = Mathf.Atan2(lastMoveDirection.y, lastMoveDirection.x) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.Euler(0, 0, angle - 90);
+            //     // rotate sprite to face the movement direction
+            //     float angle = Mathf.Atan2(lastMoveDirection.y, lastMoveDirection.x) * Mathf.Rad2Deg;
+            //     transform.rotation = Quaternion.Euler(0, 0, angle - 90);
+            //     animator.SetTrigger("WalkTrigger");
         }
-
-        // interpret player control of the game object
-        transform.position += new Vector3(moveInput.x, moveInput.y, 0) * speed * Time.deltaTime;
 
         // interpret player control of the game object
         transform.position += new Vector3(moveInput.x, moveInput.y, 0) * speed * Time.deltaTime;
@@ -129,10 +109,11 @@ public class PlayerController : MonoBehaviour
             if (Input.GetKey(KeyCode.E) && Time.time >= nextFireTime)
             {
                 FireProjectile();
+                //animator.SetTrigger("AttackTrigger");
                 nextFireTime = Time.time + fireRate;
             }
 
-            if (Input.GetKeyDown(KeyCode.Q)) // place item
+            if (Input.GetKeyDown(KeyCode.Q) && InValidBuildZone()) // place item
             {
                 if (placeable != null)
                 {
@@ -173,7 +154,7 @@ public class PlayerController : MonoBehaviour
                 nextFireTime = Time.time + fireRate;
             }
 
-            if (Input.GetKeyDown(KeyCode.O) || Input.GetKey(KeyCode.RightControl)) // place item
+            if (Input.GetKeyDown(KeyCode.O) || Input.GetKeyDown(KeyCode.RightControl) && InValidBuildZone()) // place item
             {
                 if (placeable != null)
                 {
@@ -205,8 +186,26 @@ public class PlayerController : MonoBehaviour
             {
                 inventoryManager.SelectItem(2, 4);
             }
+
+            // arrow movements
+            if (!isPlayerOne)
+            {
+                horizontalInput = Input.GetAxis("HorizontalP2Arrows");
+                verticalInput = Input.GetAxis("VerticalP2Arrows");
+                Vector2 moveInputArrows = new Vector2(horizontalInput, verticalInput);
+
+                if (moveInputArrows.sqrMagnitude > 0.001f)
+                {
+                    // get the last move direction for the projectile fired
+                    lastMoveDirection = moveInputArrows.normalized;
+                }
+
+                    // interpret player control of the game object
+                transform.position += new Vector3(moveInputArrows.x, moveInputArrows.y, 0) * speed * Time.deltaTime;
+            }
         }
 
+        // Boundaries
         if (transform.position.x > xBound)
         {
             Vector2 pos = transform.position;
@@ -238,8 +237,15 @@ public class PlayerController : MonoBehaviour
 
     public void TakeDamage(int damageTaken)
     {
-        playerHP -= damageTaken;
+        animator.SetTrigger("HurtTrigger");
+        currentHP -= damageTaken;
         hpBarController.TakePlayerDamage(damageTaken);
+    }
+
+    public void Heal(int healAmount)
+    {
+        currentHP = Mathf.Min(currentHP + healAmount, playerMaxHP);
+        hpBarController.HealPlayer(healAmount);
     }
 
     public void GainXP(int xpAmount)
@@ -270,8 +276,23 @@ public class PlayerController : MonoBehaviour
     public void LevelUp()
     {
         level++;
+
+        // reward player after level up
+        GainGold(50 * level); // scale reward w/ level
+        Heal(100); // full recovery
+        weaponDamage = (int)(weaponDamage * 1.14); // 14% damage boost/level (max: 200%)
+        weaponProjectileSpeed *= 1.07f; // 7% proj speed boost/level (max: double proj speed)
+        fireRate *= 0.93f; // 7% firerate boost/level (max: halved fire rate)
+
         xpBarController.ResetXPBar();
         UpdateUI(playerGold, level);
+    }
+
+    public bool InValidBuildZone()
+    {
+        // if in any buildzone trigger (even overlapping)
+        // return true
+        return validBuildZoneCount > 0;
     }
 
     private void UpdateUI(int gold, int level)
@@ -308,7 +329,25 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            Debug.LogError("No enemies in range to shoot.");
+            Debug.Log("No enemies in range to shoot.");
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        Debug.LogError("Entered buildzone.");
+        if (collision.CompareTag("BuildZone"))
+        {
+            validBuildZoneCount++;
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D collision)
+    {
+        Debug.LogError("Exited buildzone.");
+        if (collision.CompareTag("BuildZone"))
+        {
+            validBuildZoneCount = Mathf.Max(0, validBuildZoneCount - 1);
         }
     }
 }

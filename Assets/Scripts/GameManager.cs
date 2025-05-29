@@ -30,9 +30,6 @@ public class GameManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        // get scene object handle
-        sceneObjects = GameObject.Find("SceneObjects"); // obstacles in the scene
-
         // get UI object handles
         mainMenu = GameObject.Find("MainMenu"); // parent of buttons, title, player 1 & 2 UI
         player1UI = GameObject.Find("Player1UI"); // parent of xp and level counter text game objects
@@ -48,7 +45,6 @@ public class GameManager : MonoBehaviour
         coopButtonText = GameObject.Find("CoopButtonText").GetComponent<TextMeshProUGUI>();
 
         // hide scene objects and player UIs
-        sceneObjects.SetActive(false);
         player1UI.SetActive(false);
         player2UI.SetActive(false);
         towerUI.SetActive(false);
@@ -58,10 +54,6 @@ public class GameManager : MonoBehaviour
         // DELETE
         // EnableCoop();
         // StartGame();
-        // InventoryManager inventoryManager = GameObject.Find("Player" + 1 + "(Clone)").GetComponent<InventoryManager>();
-        // inventoryManager.AddItem(1, testItem);
-        // inventoryManager.AddItem(1, testItem2);
-        //Debug.Log("Added " + GameObject.Find("Player" + 1 + "(Clone)").GetComponent<InventoryManager>().p1Inv[0].name);
     }
 
     // Update is called once per frame
@@ -77,7 +69,6 @@ public class GameManager : MonoBehaviour
     {
         // hide main menu, reveal scene objects and UI
         mainMenu.SetActive(false);
-        sceneObjects.SetActive(true);
         player1UI.SetActive(true);
         towerUI.SetActive(true);
         waveInfo.SetActive(true);

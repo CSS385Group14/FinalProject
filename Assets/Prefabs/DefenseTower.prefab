@@ -78,7 +78,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 7
+  m_SortingOrder: 20
   m_Sprite: {fileID: -4292938964486044048, guid: aad3d4752b312184699fc753466b0aa7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -105,9 +105,9 @@ MonoBehaviour:
   prefab: {fileID: 2044612362142568405}
   projectilePrefab: {fileID: 4655083780644892886, guid: 1dba9f0f301af3e43b2c88c797ed4db8, type: 3}
   firePoint: {fileID: 8013198911146115458}
-  fireRate: 1
+  fireRate: 0.5
   projectileSpeed: 15
-  projectileDamage: 50
+  projectileDamage: 5
   goldCost: 100
 --- !u!58 &-2503785361569129814
 CircleCollider2D:

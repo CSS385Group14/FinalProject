@@ -3,7 +3,7 @@ using UnityEngine;
 public class EnemyProjectile : MonoBehaviour
 {
     public int damage = 10;
-    public float maxDistance = 10f;
+    private float maxDistance = 10f;
     private Vector2 startPosition;
     void Awake()
     {
