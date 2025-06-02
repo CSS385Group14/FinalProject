@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 6226592478009065802}
   - component: {fileID: 1430086603272233436}
   - component: {fileID: 793398222880050511}
-  - component: {fileID: -2008197116780616471}
   m_Layer: 0
   m_Name: Plots
   m_TagString: Untagged
@@ -135,19 +134,3 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!208 &-2008197116780616471
-NavMeshObstacle:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 85526764950869019}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.5, y: 0.5, z: 0.1}
-  m_MoveThreshold: 0.1
-  m_Carve: 1
-  m_CarveOnlyStationary: 1
-  m_Center: {x: 0, y: 0, z: 0}
-  m_TimeToStationary: 0.5

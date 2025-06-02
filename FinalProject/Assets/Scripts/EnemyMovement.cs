@@ -4,13 +4,14 @@ using UnityEngine;
 public class EnemyMovement : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] private Rigidbody2D rb;
+    [SerializeField] public Rigidbody2D rb;
 
     [Header("Attributes")]
-    [SerializeField] private float moveSpeed = 2f;
+    private EnemyStats statsSO;
+    private SpriteRenderer spriteRenderer;
     public float attackCooldown = 0.2f; // enemy rate of fire
-    public int towerDamageValue = 10; // how much damage it deals to the tower
-    public int playerDamageValue = 5; // how much damage it deals to the player
+    //public int towerDamageValue = 10; // how much damage it deals to the tower
+    //public int playerDamageValue = 5; // how much damage it deals to the player
     private Transform target;
     private float nextFireTime = 0f;
     private Transform[] path;
@@ -21,13 +22,13 @@ public class EnemyMovement : MonoBehaviour
     private bool stoppedByBarricade = false;
 
     public bool lockedInCombat { get; set; } = false;
-
     private bool isStopped => stopRequestedExternally || stoppedByBarricade;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         //mainTower = GameObject.Find("Tower").GetComponent<MainTower>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     public void InitPath(Transform[] pathArray)
@@ -60,7 +61,13 @@ public class EnemyMovement : MonoBehaviour
 
             target = path[pathIndex];
         }
+        //UpdateFacingDirection();
     }
+    public void SetStats(EnemyStats stats)
+    {
+        statsSO = stats;
+    }
+
     public void StopMovement(bool stop)
     {
         stopRequestedExternally = stop;
@@ -83,12 +90,13 @@ public class EnemyMovement : MonoBehaviour
         if (!isStopped)
         {
             Vector2 direction = (target.position - transform.position).normalized;
-            rb.velocity = direction * moveSpeed;
+            rb.linearVelocity = direction * statsSO.moveSpeed;
         }
         else
         {
-            rb.velocity = Vector2.zero;
+            rb.linearVelocity = Vector2.zero;
         }
+
     }
 
     // Attack when barricade is reached (Placeholder code)

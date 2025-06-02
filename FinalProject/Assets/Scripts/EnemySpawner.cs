@@ -156,11 +156,7 @@ public class EnemySpawner : MonoBehaviour
             return;
         }
 
-        if (PathManager.main == null || PathManager.main.startPoint == null)
-        {
-            Debug.LogError("PathManager or its start point is not assigned.");
-            return;
-        }
+
 
         int selectedLevel = GetRandomAvailableEnemyLevel();
         if (selectedLevel == -1)
@@ -171,8 +167,8 @@ public class EnemySpawner : MonoBehaviour
 
         GameObject prefab = enemyPrefabs[selectedLevel - 1];
         enemiesToSpawnPerLevel[selectedLevel]--;
-
-        GameObject enemyObj = Instantiate(prefab, PathManager.main.startPoint.position, Quaternion.identity);
+        Transform spawnPoint = PathManager.main.GetRandomStartPoint();
+        GameObject enemyObj = Instantiate(prefab, spawnPoint.position, Quaternion.identity);
         Transform[] path = PathManager.main.GetRandomPath();
 
         // Assign movement script
@@ -194,25 +190,10 @@ public class EnemySpawner : MonoBehaviour
         }
 
         // Assign targets based on enemy level
-        switch (selectedLevel)
-        {
-            case 1:
-                Enemy enemy1 = enemyObj.GetComponent<Enemy>();
-                if (enemy1 != null) enemy1.SetTargets(player1, player2, tower);
-                break;
-            case 2:
-                EnemyLv2 enemy2 = enemyObj.GetComponent<EnemyLv2>();
-                if (enemy2 != null) enemy2.SetTargets(player1, player2, tower);
-                break;
-            case 3:
-                EnemyLv3 enemy3 = enemyObj.GetComponent<EnemyLv3>();
-                if (enemy3 != null) enemy3.SetTargets(player1, player2, tower);
-                break;
-            case 4:
-                EnemyLv4 enemy4 = enemyObj.GetComponent<EnemyLv4>();
-                if (enemy4 != null) enemy4.SetTargets(player1, player2, tower);
-                break;
-        }
+        
+        BaseEnemy enemy = enemyObj.GetComponent<BaseEnemy>();
+        if (enemy != null) enemy.SetTargets(player1, player2, tower);
+
     }
 
 

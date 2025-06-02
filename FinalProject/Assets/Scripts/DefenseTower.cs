@@ -3,8 +3,14 @@ using UnityEngine;
 
 public class DefenseTower : Placeable
 {
+    public const int MAX_LEVEL = 3;
     public GameObject projectilePrefab;
+    public GameObject popupTextPrefab;
     public Transform firePoint;
+    public Transform popupSpawnLocation;
+    public Sprite[] levelSprites = new Sprite[MAX_LEVEL - 1];
+    public int level = 1;
+    public int upgradeCost = 100;
     public float fireRate = 1f;
     public float projectileSpeed = 10f;
     public int projectileDamage = 20;
@@ -12,6 +18,7 @@ public class DefenseTower : Placeable
     private int playerNumber;
     private float fireCooldown;
     private List<Transform> enemiesInRange = new List<Transform>();
+    private SpriteRenderer sr;
 
     public override void Place(int selectionIndex, int playerNumber, Transform playerTransform, Vector2 lastMoveDirection)
     {
@@ -19,9 +26,15 @@ public class DefenseTower : Placeable
 
         if (player.DeductGold(goldCost))
         {
-            SetOwner(playerNumber);
-            Instantiate(gameObject, playerTransform.position, transform.rotation);
+            GameObject instance = Instantiate(gameObject, playerTransform.position, transform.rotation);
+            DefenseTower defTower = instance.GetComponent<DefenseTower>();
+            defTower.SetOwner(playerNumber);
         }
+    }
+
+    void Start()
+    {
+        sr = GetComponent<SpriteRenderer>();
     }
 
     void Update()
@@ -68,4 +81,71 @@ public class DefenseTower : Placeable
     {
         this.playerNumber = playerNumber;
     }
+
+    public void Upgrade()
+    {
+        if (level == MAX_LEVEL) // do not allow upgrade at max level
+        {
+            return;
+        }
+
+        int playerNumberInRange = GetPlayerNumberInRange();
+        if (playerNumberInRange == -1)
+        {
+            return;
+        }
+
+        // deduct gold, if player in range has enough
+        if (!GameObject.Find("Player" + playerNumberInRange + "(Clone)").GetComponent<PlayerController>().DeductGold(upgradeCost))
+        {
+            return;
+        }
+
+        level++;
+
+        // change sprite
+        sr.sprite = levelSprites[level - 2];
+
+        // improve stats
+        fireRate += 0.5f;
+        projectileDamage += 10;
+        projectileSpeed += 5;
+
+        // increase upgrade cost
+        upgradeCost += 100;
+
+        ShowPopup("Upgraded!");
+    }
+
+    private void ShowPopup(string message)
+    {
+        GameObject popup = Instantiate(popupTextPrefab, popupSpawnLocation.position, Quaternion.identity, popupSpawnLocation.parent);
+        popup.GetComponent<PopupText>().SetText(message, Color.white);
+    }
+
+    int GetPlayerNumberInRange()
+    {
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        GameObject closestPlayer = null;
+        float closestDistance = Mathf.Infinity;
+
+        foreach (GameObject player in players)
+        {
+            float distance = Vector2.Distance(transform.position, player.transform.position);
+            if (distance < closestDistance)
+            {
+                closestDistance = distance;
+                closestPlayer = player;
+            }
+        }
+
+        if (closestPlayer != null)
+        {
+            return closestPlayer.GetComponent<PlayerController>().playerNumber;
+        }
+
+        // no player found
+        return -1;
+    }
+
 }

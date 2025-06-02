@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 3094821707812268100}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.05, y: -0.16, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -68,7 +68,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 4
+  m_Radius: 2.4
 --- !u!114 &7545668179655138012
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81,6 +81,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d771f293ba498f409f5d139cdd0b9e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &6378616811218756438
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 223151489061884262}
+  m_Layer: 3
+  m_Name: PopupSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &223151489061884262
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6378616811218756438}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.081, y: 0.113, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3020739617789722073}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6635671086524870418
 GameObject:
   m_ObjectHideFlags: 0
@@ -107,8 +138,8 @@ Transform:
   m_GameObject: {fileID: 6635671086524870418}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.0029997826, y: -0.0029997826, z: 0}
-  m_LocalScale: {x: 1.20388, y: 1.20388, z: 1.20388}
+  m_LocalPosition: {x: 0.058, y: -0.17, z: 0}
+  m_LocalScale: {x: 0.51628184, y: 0.51628184, z: 0.51628184}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3020739617789722073}
@@ -158,7 +189,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 15
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 0.9064038, b: 0, a: 1}
+  m_Color: {r: 1, g: 0, b: 0.06774902, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -184,6 +215,7 @@ GameObject:
   - component: {fileID: -92880192216370489}
   - component: {fileID: -1908383980011912436}
   - component: {fileID: 1526302993744688904}
+  - component: {fileID: 7002756457606524075}
   m_Layer: 3
   m_Name: Player1
   m_TagString: Player
@@ -201,11 +233,12 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -4.56, y: -6.72, z: 0}
-  m_LocalScale: {x: 8.046295, y: 8.046295, z: 8.046295}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 7056853053272193968}
   - {fileID: 241043039022689765}
+  - {fileID: 223151489061884262}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1231461890091554332
@@ -251,9 +284,9 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 20
-  m_Sprite: {fileID: 3254134716894865524, guid: 7ecd9583129962d41bb22937ac118bf9, type: 3}
-  m_Color: {r: 0.740566, g: 0.7937218, b: 1, a: 1}
+  m_SortingOrder: 21
+  m_Sprite: {fileID: 4723107735738678597, guid: aa5c17a3511422448a3e323582ebd4ae, type: 3}
+  m_Color: {r: 0.4198113, g: 0.53409106, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -275,20 +308,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0c5b981dd3efdc4fbf5549e116edd7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectilePrefab: {fileID: 1344375442379186138, guid: 39c1a1ea5ad7f404080f46ce20d42c77, type: 3}
-  effectPrefab: {fileID: 5373032674524813074, guid: e0fc02f028b4d0a4c8c2eeb94e4e981a, type: 3}
+  projectilePrefab: {fileID: 951289578112271396, guid: 90444dd189fa458498a8a6bc13371c8d, type: 3}
+  popupTextPrefab: {fileID: 7603413224096222465, guid: 32e7e818bf6a18c49aadcdf9d114caeb, type: 3}
+  popupSpawnLocation: {fileID: 223151489061884262}
   speed: 5
   isPlayerOne: 1
   isDead: 0
   playerXP: 0
   playerGold: 100
-  playerHP: 100
+  playerMaxHP: 100
   level: 1
   fireRate: 1
-  weaponDamage: 50
-  weaponProjectileSpeed: 35
+  weaponDamage: 10
+  weaponProjectileSpeed: 20
   xBound: 22.08901
   yBound: 12.305
+  playerNumber: 1
   placeable: {fileID: 0}
 --- !u!58 &7510354920702090212
 CircleCollider2D:
@@ -324,8 +359,8 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Radius: 0.5
+  m_Offset: {x: 0.07349825, y: -0.17794454}
+  m_Radius: 0.38781774
 --- !u!114 &-6079370537716212643
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -340,7 +375,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerMaxHealth: 100
   playerCurrentHealth: 0
-  playerNumber: 1
 --- !u!114 &-92880192216370489
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -353,7 +387,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3db79cfc4113c6e488c04bbc8179d9ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerNumber: 1
   playerTotalXP: 0
   playerCurrentLevelXP: 0
   lastXPThreshold: 0
@@ -380,7 +413,7 @@ Animator:
   m_GameObject: {fileID: 9010902448063006195}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 496f6de403ed8e8469065ec3c88dfd48, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -392,3 +425,16 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &7002756457606524075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9010902448063006195}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9fdbccab10d2b3468e5e9f46dc21b05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiYOffset: -2
