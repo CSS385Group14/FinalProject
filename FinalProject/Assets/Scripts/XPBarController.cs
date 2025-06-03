@@ -4,11 +4,11 @@ using UnityEngine.UI;
 
 public class XPBarController : MonoBehaviour
 {
-    public int playerNumber = 1;
     public int playerTotalXP = 0;
     public int playerCurrentLevelXP = 0;
     public int lastXPThreshold;
     public int nextXPThreshold;
+    private int playerNumber;
     private int playerLevel = 1;
     private int[] levelThresholds = new int[ProgressionManager.MAX_LEVEL]; // store all level thresholds
     private Image playerXPFillImage;
@@ -17,6 +17,7 @@ public class XPBarController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        playerNumber = transform.GetComponent<PlayerController>().playerNumber;
         playerXPFillImage = GameObject.Find("P" + playerNumber + "XPBarFill").GetComponent<Image>();
         progressionManager = GameObject.Find("ProgressionManager").GetComponent<ProgressionManager>();
         SetLevelThresholds();

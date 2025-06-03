@@ -1,39 +1,38 @@
 using UnityEngine;
 
-public class EnemyLv3 : MonoBehaviour
+public class EnemyLv3 : BaseEnemy
 {
-    public int maxHealth = 1000; // how much health the enemy has
-    public int xpValue = 200; // amount of xp gained by the player when killed
-    public int goldValue = 10; // amount of gold gained by the player when killed
-    public PlayerController player; // do not set in unity!
     private int lastHitPlayer;
-    Animator animator;
-    public int health;
     private SpriteRenderer spriteRenderer;
-    public float detectionRangePlayer = 4f;
-    public float detectionRangeTower = 9f;
-    private float nextFireTime;
+    private Animator animator;
     public GameObject projectilePrefab;
     public Transform firePoint;
-    public float fireSpeed = 10f;
-    public float fireRate = 1f;
-    private GameManager gameManager;
+    private bool dying = false;
+    private float nextFireTime;
     private GameObject player1;
     private GameObject player2;
     private GameObject tower;
     private GameObject currentTarget;
     private EnemyMovement movement;
+    private GameManager gameManager;
+    private bool isFacingRight = true;
+    private Vector3 originalFirePointLocalPos;
+    private bool wasAttackingLastFrame = false;
 
-    void Start()
+    protected override void Start()
     {
-        animator = GetComponent<Animator>();
-        health = maxHealth;
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        nextFireTime = Time.time;
-        movement = GetComponent<EnemyMovement>();
+        base.Start(); // initializes currentHP from BaseEnemy
 
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        animator = GetComponent<Animator>();
+        movement = GetComponent<EnemyMovement>();
+        gameManager = GameObject.Find("GameManager")?.GetComponent<GameManager>();
         tower = GameObject.Find("Tower");
+
+        nextFireTime = Time.time;
+        movement.SetStats(statsSO);
+        isFacingRight = true;
+        spriteRenderer.flipX = false;
     }
 
     public void SetTargets(GameObject p1, GameObject p2, GameObject tower)
@@ -43,154 +42,164 @@ public class EnemyLv3 : MonoBehaviour
         this.tower = tower;
     }
 
-    private void SetTargetToPlayer1()
+    private void SetTarget(GameObject target)
     {
-        currentTarget = player1;
+        currentTarget = target;
     }
 
-    private void SetTargetToPlayer2()
+    protected override void Update()
     {
-        currentTarget = player2;
-    }
+        base.Update();
 
-    private void SetTargetToTower()
-    {
-        currentTarget = tower;
-    }
+        if (!gameManager || !gameManager.gameStart || !tower) return;
 
-
-    void Update()
-    {
-        if (tower != null)
+        if (currentHP <= 0 && !dying)
         {
-            if (health < 1)
+            Die();
+        }
+
+        // Find players
+        player1 = GameObject.Find("Player1(Clone)");
+        player2 = gameManager.isCoopEnabled ? GameObject.Find("Player2(Clone)") : null;
+
+        bool isPlayer1Dead = player1?.GetComponent<PlayerController>().isDead ?? true;
+        bool isPlayer2Dead = player2?.GetComponent<PlayerController>().isDead ?? true;
+
+        float distToP1 = player1 ? Vector2.Distance(transform.position, player1.transform.position) : Mathf.Infinity;
+        float distToP2 = player2 ? Vector2.Distance(transform.position, player2.transform.position) : Mathf.Infinity;
+        float distToTower = Vector2.Distance(transform.position, tower.transform.position);
+
+        bool inRangeP1 = distToP1 <= statsSO.detectionRangePlayer && Mathf.Abs(transform.position.y - player1.transform.position.y) < 1.5f;
+        bool inRangeP2 = player2 && distToP2 <= statsSO.detectionRangePlayer && Mathf.Abs(transform.position.y - player2.transform.position.y) < 1.5f;
+        bool inRangeTower = distToTower <= statsSO.detectionRangeTower;
+
+        bool targetInRange = inRangeTower || (inRangeP1 && !isPlayer1Dead) || (inRangeP2 && !isPlayer2Dead);
+        movement?.StopMovement(targetInRange);
+        movement.lockedInCombat = targetInRange;
+
+        if (inRangeTower)
+        {
+            SetTarget(tower);
+            TryShoot(tower);
+        }
+        else if (inRangeP1 && !isPlayer1Dead)
+        {
+            SetTarget(player1);
+            TryShoot(player1);
+        }
+        else if (inRangeP2 && !isPlayer2Dead)
+        {
+            SetTarget(player2);
+            TryShoot(player2);
+        }
+        else
+        {
+            currentTarget = null;
+        }
+        HandleFacingDirection();
+    }
+    private void HandleFacingDirection()
+    {
+        bool isAttacking = currentTarget != null;
+
+        // When attacking: Face the target
+        if (isAttacking)
+        {
+            FaceTarget(currentTarget.transform.position);
+            wasAttackingLastFrame = true;
+        }
+        // When stopping attack: Return to default facing
+        else if (wasAttackingLastFrame)
+        {
+            ResetToDefaultFacing();
+            wasAttackingLastFrame = false;
+        }
+        // Maintain facing during movement
+        else if (movement != null && movement.rb != null && movement.rb.linearVelocity.magnitude > 0.1f)
+        {
+            // Face movement direction
+            bool shouldFaceRight = movement.rb.linearVelocity.x > 0;
+            if (shouldFaceRight != isFacingRight)
             {
-                player = GameObject.Find("Player" + lastHitPlayer + "(Clone)")?.GetComponent<PlayerController>();
-                if (player != null)
-                {
-                    player.GainXP(xpValue);
-                    player.GainGold(goldValue);
-                }
-                EnemySpawner.onEnemyDestroy?.Invoke();
-                Destroy(gameObject);
-                return;
-            }
-
-            if (gameManager.gameStart)
-            {
-                bool isPlayer1Dead;
-                bool isPlayer2Dead = false;
-
-                // find player objects at runtime and get death state
-                player1 = GameObject.Find("Player1(Clone)");
-                isPlayer1Dead = player1.GetComponent<PlayerController>().isDead;
-                if (gameManager.isCoopEnabled)
-                {
-                    player2 = GameObject.Find("Player2(Clone)");
-                    isPlayer2Dead = player2.GetComponent<PlayerController>().isDead;
-                }
-
-                // === Calculate distances ===
-                float distanceToTower = Vector2.Distance(transform.position, tower.transform.position);
-                float distanceToPlayer1 = Vector2.Distance(transform.position, player1.transform.position);
-                float distanceToPlayer2 = player2 != null ? Vector2.Distance(transform.position, player2.transform.position) : Mathf.Infinity;
-
-                // === Range checks ===
-                bool towerInRange = distanceToTower <= detectionRangeTower;
-                bool player1InRange = distanceToPlayer1 <= detectionRangePlayer && Mathf.Abs(transform.position.y - player1.transform.position.y) < 1.5f;
-                bool player2InRange = player2 != null && distanceToPlayer2 <= detectionRangePlayer && Mathf.Abs(transform.position.y - player2.transform.position.y) < 1.5f;
-
-                bool anyTargetInRange = towerInRange || (player1InRange && !isPlayer1Dead) || (player2InRange && !isPlayer2Dead);
-
-                // === Movement handling ===
-                movement?.StopMovement(anyTargetInRange);
-                movement.lockedInCombat = anyTargetInRange;
-
-                // === Targeting priority ===
-                if (towerInRange)
-                {
-                    SetTargetToTower();
-                    TryShoot(tower);
-                }
-                else if (player1InRange && !isPlayer1Dead)
-                {
-                    SetTargetToPlayer1();
-                    TryShoot(player1);
-                }
-                else if (player2InRange && !isPlayer2Dead)
-                {
-                    SetTargetToPlayer2();
-                    TryShoot(player2);
-                }
-                else
-                {
-                    currentTarget = null;
-                }
-
+                SetFacing(shouldFaceRight);
             }
         }
+    }
+
+    private void FaceTarget(Vector3 targetPosition)
+    {
+        Vector2 direction = targetPosition - transform.position;
+        bool shouldFaceRight = direction.x > 0;
+
+        if (shouldFaceRight != isFacingRight)
+        {
+            SetFacing(shouldFaceRight);
+        }
+    }
+
+    private void SetFacing(bool faceRight)
+    {
+        isFacingRight = faceRight;
+        spriteRenderer.flipX = !faceRight;
+    }
+
+    private void ResetToDefaultFacing()
+    {
+        SetFacing(true); // Default to right-facing
     }
 
     private void TryShoot(GameObject target)
     {
         if (Time.time > nextFireTime)
         {
+            // Ensure target exists
+            if (target == null) return;
+
             FireProjectile(target);
-            nextFireTime = Time.time + fireRate;
+            nextFireTime = Time.time + statsSO.attackRate;
         }
     }
 
-    // Called when the enemy is hit by a projectile
-    public void TakeDamage(int damage, int owner)
+    private void FireProjectile(GameObject target)
     {
-        //Debug.Log("Animator Hurt Trigger Called");
-        animator.SetTrigger("HurtTrigger");
-        lastHitPlayer = owner;
-        health -= damage;
-        Debug.Log("Enemy took damage: " + damage + ", Remaining HP: " + health);
-
-    }
-
-    // Determines the closest target (either player or tower)
-    private GameObject GetClosestTarget(float distanceToPlayer1, float distanceToPlayer2, float distanceToTower)
-    {
-        // Prioritize the closest player and then the tower
-        if (distanceToPlayer1 < distanceToPlayer2 && distanceToPlayer1 < distanceToTower)
+        if (projectilePrefab && firePoint && target)
         {
-            return player1;
-        }
-        else if (distanceToPlayer2 < distanceToPlayer1 && distanceToPlayer2 < distanceToTower)
-        {
-            return player2;
-        }
-        else
-        {
-            return tower;
-        }
-    }
+            GameObject proj = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
+            Rigidbody2D rb = proj.GetComponent<Rigidbody2D>();
 
-    // Fires a projectile at the specified target (player or tower)
-    void FireProjectile(GameObject target)
-    {
-        if (projectilePrefab != null && firePoint != null)
-        {
-            GameObject projectile = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
-
-            Rigidbody2D rb = projectile.GetComponent<Rigidbody2D>();
-            if (rb != null)
+            if (rb)
             {
-                Vector2 direction = (target.transform.position - firePoint.position).normalized;
-                rb.velocity = direction * fireSpeed;
-            }
-            else
-            {
-                Debug.LogWarning("Projectile has no Rigidbody2D!");
+                Vector2 dir = (target.transform.position - firePoint.position).normalized;
+                rb.linearVelocity = dir * statsSO.moveSpeed;
             }
         }
-        else
-        {
-            Debug.LogError("Projectile prefab or fire point is not assigned!");
-        }
     }
 
+    public override void TakeDamage(int damage, int ownerID)
+    {
+        currentHP -= damage;
+        lastHitPlayer = ownerID;
+        animator?.SetTrigger("HurtTrigger");
+        Debug.Log($"{name} took {damage} damage. Remaining HP: {currentHP}");
+    }
+
+    protected override void Die()
+    {
+        dying = true;
+        if (animator)
+        {
+            animator.SetFloat("AnimationSpeed", 2.0f); // Play death faster
+            animator.SetTrigger("DieTrigger");
+        }
+
+        PlayerController killer = GameObject.Find($"Player{lastHitPlayer}(Clone)")?.GetComponent<PlayerController>();
+        if (killer)
+        {
+            killer.GainXP(statsSO.xpValue);
+            killer.GainGold(statsSO.goldValue);
+        }
+
+        EnemySpawner.onEnemyDestroy?.Invoke();
+        Destroy(gameObject, 0.5f); // Delay so death animation shows
+    }
 }

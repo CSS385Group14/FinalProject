@@ -13,12 +13,11 @@ GameObject:
   - component: {fileID: 153124342715777406}
   - component: {fileID: 4871788330915888782}
   - component: {fileID: 1939528870871761615}
-  - component: {fileID: 7931300450571684392}
-  - component: {fileID: -6310913277974372264}
   - component: {fileID: 3022099480231898969}
+  - component: {fileID: -680469473208835585}
   m_Layer: 0
   m_Name: Enemy Lv4
-  m_TagString: Enemy Level 4
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -81,7 +80,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 5
+  m_SortingOrder: 35
   m_Sprite: {fileID: 4723107735738678597, guid: 89da6f3e4dc9cc247910ccee30a3a246, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -154,36 +153,44 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be48ddf73e2906c48bf741dd9ca63ca8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 500
-  xpValue: 150
-  goldValue: 5
-  player: {fileID: 0}
-  health: 0
-  attackRate: 1
---- !u!195 &7931300450571684392
-NavMeshAgent:
+  statsSO: {fileID: 11400000, guid: 4c789660731590f4ca185cafb88610dc, type: 2}
+--- !u!114 &3022099480231898969
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8215815958827179057}
   m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 0.39
-  m_Speed: 3.5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 0.58
-  m_BaseOffset: 0.29
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
---- !u!70 &-6310913277974372264
-CapsuleCollider2D:
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3f68ac0e39d9cb4490149736cc1227d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 153124342715777406}
+  startPoints:
+  - {fileID: 3708297685704350679, guid: fee8c42c2651e7549b1543c4bf8c567f, type: 3}
+  - {fileID: 7537124116945890747, guid: e175a890a40285543aec49ea01c32502, type: 3}
+  - {fileID: 2542231490960377690, guid: 8db9812317aed1547bc449d60f44cbe5, type: 3}
+  - {fileID: 2054224555689086599, guid: e25759681cf99d94598db832d6bb29d4, type: 3}
+  pathContainer: {fileID: 524797374112913529, guid: 8dcd8351434eaec4a85873a092044618, type: 3}
+  obstacleDetectionRadius: 0.1
+  avoidanceForce: 100
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  attackCooldown: 0.2
+  towerDamageValue: 10
+  playerDamageValue: 5
+  teleportDistance: 1.5
+  minTeleportAngle: 15
+  maxTeleportAngle: 45
+  stuckTimeThreshold: 2
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  downwardTeleportBoost: 0.5
+--- !u!61 &-680469473208835585
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -212,27 +219,19 @@ CapsuleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.78, y: 0.58}
+    newSize: {x: 0.78, y: 0.58}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
   m_Size: {x: 0.78, y: 0.58}
-  m_Direction: 0
---- !u!114 &3022099480231898969
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8215815958827179057}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c3f68ac0e39d9cb4490149736cc1227d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rb: {fileID: 153124342715777406}
-  moveSpeed: 2
-  attackCooldown: 0.2
-  towerDamageValue: 10
-  playerDamageValue: 5
+  m_EdgeRadius: 0

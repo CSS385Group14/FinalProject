@@ -26,13 +26,12 @@ public class GameManager : MonoBehaviour
     private TextMeshProUGUI coopButtonText;
     public GameObject testItem; // DELETE
     public GameObject testItem2; // DELETE
+    public static bool isPaused = false;
+    public GameObject pauseMenuUI;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        // get scene object handle
-        sceneObjects = GameObject.Find("SceneObjects"); // obstacles in the scene
-
         // get UI object handles
         mainMenu = GameObject.Find("MainMenu"); // parent of buttons, title, player 1 & 2 UI
         player1UI = GameObject.Find("Player1UI"); // parent of xp and level counter text game objects
@@ -48,7 +47,6 @@ public class GameManager : MonoBehaviour
         coopButtonText = GameObject.Find("CoopButtonText").GetComponent<TextMeshProUGUI>();
 
         // hide scene objects and player UIs
-        sceneObjects.SetActive(false);
         player1UI.SetActive(false);
         player2UI.SetActive(false);
         towerUI.SetActive(false);
@@ -56,12 +54,8 @@ public class GameManager : MonoBehaviour
         gameOverUI.SetActive(false);
 
         // DELETE
-        EnableCoop();
-        StartGame();
-        // InventoryManager inventoryManager = GameObject.Find("Player" + 1 + "(Clone)").GetComponent<InventoryManager>();
-        // inventoryManager.AddItem(1, testItem);
-        // inventoryManager.AddItem(1, testItem2);
-        //Debug.Log("Added " + GameObject.Find("Player" + 1 + "(Clone)").GetComponent<InventoryManager>().p1Inv[0].name);
+        // EnableCoop();
+        // StartGame();
     }
 
     // Update is called once per frame
@@ -71,13 +65,23 @@ public class GameManager : MonoBehaviour
         {
             EndGame();
         }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (isPaused)
+            {
+                Resume();
+            }
+            else
+            {
+                Pause();
+            }
+        }
     }
 
     public void StartGame()
     {
         // hide main menu, reveal scene objects and UI
         mainMenu.SetActive(false);
-        sceneObjects.SetActive(true);
         player1UI.SetActive(true);
         towerUI.SetActive(true);
         waveInfo.SetActive(true);
@@ -85,10 +89,10 @@ public class GameManager : MonoBehaviour
         // instantiate player 1 and configure attack
         Instantiate(playerOnePrefab, new Vector2(p1SpawnX, p1SpawnY), playerOnePrefab.transform.rotation).GetComponent<PlayerController>();
         
-        //FOR TESTING - DELETE
         InventoryManager inventoryManager1 = GameObject.Find("Player" + 1 + "(Clone)").GetComponent<InventoryManager>();
         inventoryManager1.AddItem(1, testItem);
         inventoryManager1.AddItem(1, testItem2);
+        inventoryManager1.SelectItem(1, 1);
 
         // check if coop is enabled
         if (isCoopEnabled)
@@ -101,10 +105,15 @@ public class GameManager : MonoBehaviour
             // enable player 2 UI
             player2UI.SetActive(true);
 
-            //FOR TESTING - DELETE
             InventoryManager inventoryManager2 = GameObject.Find("Player" + 2 + "(Clone)").GetComponent<InventoryManager>();
             inventoryManager2.AddItem(2, testItem);
             inventoryManager2.AddItem(2, testItem2);
+            inventoryManager2.SelectItem(2, 1);
+        }
+        else
+        {
+            // boost stats for solo play
+            inventoryManager1.gameObject.GetComponent<PlayerController>().BoostStats(10);
         }
 
         // start checking for xp, level updates
@@ -124,9 +133,12 @@ public class GameManager : MonoBehaviour
 
     public void ReloadScene()
     {
+        Time.timeScale = 1f; // Reset time scale to normal
+        isPaused = false;    // Reset pause state
         Scene currentScene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(currentScene.buildIndex);
     }
+
 
     public void EnableCoop()
     {
@@ -141,5 +153,18 @@ public class GameManager : MonoBehaviour
         {
             coopButtonText.SetText("Enable Coop");
         }
+    }
+    public void Resume()
+    {
+        pauseMenuUI.SetActive(false);
+        Time.timeScale = 1f;
+        isPaused = false;
+    }
+
+    private void Pause()
+    {
+        pauseMenuUI.SetActive(true);
+        Time.timeScale = 0f;
+        isPaused = true;
     }
 }

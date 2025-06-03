@@ -5,7 +5,7 @@ public class PathManager : MonoBehaviour
     public static PathManager main;
 
     public Transform[][] pathGroups;
-    public Transform startPoint;  // Add this field to represent the starting point
+    [SerializeField] private Transform[] startPoints;
 
     void Awake()
     {
@@ -27,14 +27,20 @@ public class PathManager : MonoBehaviour
         }
 
         // Ensure a startPoint is set for spawning enemies
-        if (startPoint == null)
-        {
-            Debug.LogWarning("Start point not set in PathManager. Please assign a start point in the inspector.");
-        }
+
     }
 
     public Transform[] GetRandomPath()
     {
         return pathGroups[Random.Range(0, pathGroups.Length)];
+    }
+    public Transform GetRandomStartPoint()
+    {
+        if (startPoints == null || startPoints.Length == 0)
+        {
+            Debug.LogError("No start points assigned in PathManager");
+            return transform;
+        }
+        return startPoints[Random.Range(0, startPoints.Length)];
     }
 }

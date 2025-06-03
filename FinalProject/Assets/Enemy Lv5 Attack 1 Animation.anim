@@ -1,0 +1,94 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!74 &7400000
+AnimationClip:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Enemy Lv5 Attack 1 Animation
+  serializedVersion: 7
+  m_Legacy: 0
+  m_Compressed: 0
+  m_UseHighQualityCurve: 1
+  m_RotationCurves: []
+  m_CompressedRotationCurves: []
+  m_EulerCurves: []
+  m_PositionCurves: []
+  m_ScaleCurves: []
+  m_FloatCurves: []
+  m_PPtrCurves:
+  - serializedVersion: 2
+    curve:
+    - time: 0
+      value: {fileID: 3487998440816323208, guid: 34ea7030f842305458e867b036d04141, type: 3}
+    - time: 0.083333336
+      value: {fileID: 5132615051930812307, guid: aa49b4df907871e40bd8478d96360cfb, type: 3}
+    - time: 0.16666667
+      value: {fileID: -6431996624159865286, guid: a3be3d5e2b952cc41aeaa82c56541bbd, type: 3}
+    - time: 0.25
+      value: {fileID: 5185585652563731828, guid: b9ade2f00e4dcc941beb01339f3d7539, type: 3}
+    - time: 0.33333334
+      value: {fileID: -3366320317961229992, guid: 88a99651051923c4eb6056b1ce19e396, type: 3}
+    - time: 0.41666666
+      value: {fileID: 3649108863573662535, guid: 669224e18d3dca344a7a6e0a21d7b5d2, type: 3}
+    attribute: m_Sprite
+    path: 
+    classID: 212
+    script: {fileID: 0}
+    flags: 2
+  m_SampleRate: 12
+  m_WrapMode: 0
+  m_Bounds:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0, y: 0, z: 0}
+  m_ClipBindingConstant:
+    genericBindings:
+    - serializedVersion: 2
+      path: 0
+      attribute: 0
+      script: {fileID: 0}
+      typeID: 212
+      customType: 23
+      isPPtrCurve: 1
+      isIntCurve: 0
+      isSerializeReferenceCurve: 0
+    pptrCurveMapping:
+    - {fileID: 3487998440816323208, guid: 34ea7030f842305458e867b036d04141, type: 3}
+    - {fileID: 5132615051930812307, guid: aa49b4df907871e40bd8478d96360cfb, type: 3}
+    - {fileID: -6431996624159865286, guid: a3be3d5e2b952cc41aeaa82c56541bbd, type: 3}
+    - {fileID: 5185585652563731828, guid: b9ade2f00e4dcc941beb01339f3d7539, type: 3}
+    - {fileID: -3366320317961229992, guid: 88a99651051923c4eb6056b1ce19e396, type: 3}
+    - {fileID: 3649108863573662535, guid: 669224e18d3dca344a7a6e0a21d7b5d2, type: 3}
+  m_AnimationClipSettings:
+    serializedVersion: 2
+    m_AdditiveReferencePoseClip: {fileID: 0}
+    m_AdditiveReferencePoseTime: 0
+    m_StartTime: 0
+    m_StopTime: 0.5
+    m_OrientationOffsetY: 0
+    m_Level: 0
+    m_CycleOffset: 0
+    m_HasAdditiveReferencePose: 0
+    m_LoopTime: 1
+    m_LoopBlend: 0
+    m_LoopBlendOrientation: 0
+    m_LoopBlendPositionY: 0
+    m_LoopBlendPositionXZ: 0
+    m_KeepOriginalOrientation: 0
+    m_KeepOriginalPositionY: 1
+    m_KeepOriginalPositionXZ: 0
+    m_HeightFromFeet: 0
+    m_Mirror: 0
+  m_EditorCurves: []
+  m_EulerEditorCurves: []
+  m_HasGenericRootTransform: 0
+  m_HasMotionFloatCurves: 0
+  m_Events:
+  - time: 0
+    functionName: DealDamage
+    data: 
+    objectReferenceParameter: {fileID: 11500000, guid: d65d777e0edd5d04a857810430e98e2d, type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
