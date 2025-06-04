@@ -19,8 +19,8 @@ public class PlayerController : MonoBehaviour
     public float xBound = 22.08901f;
     public float yBound = 12.305f;
     private float nextFireTime = 0f;
-    private int validBuildZoneCount = 0; // 1 for testing purposes, make 0 later
-    private int validBarricadeBuildZoneCount = 0;
+    private int validBuildZoneCount = 0;
+    public int validBarricadeBuildZoneCount = 0;
     private int invalidBuildZoneCount = 0;
     private int currentHP = 100;
     private GameManager gameManager;
@@ -141,7 +141,7 @@ public class PlayerController : MonoBehaviour
                 {
                     // Debug.Log("tag: " + placeable.tag);
                     // Debug.Log("is in barricade zone: " + InValidBarricadeBuildZone());
-                    if (placeable.CompareTag("Barricade") && InValidBarricadeBuildZone())
+                    if (placeable.CompareTag("Wall") && InValidBarricadeBuildZone())
                     {
                         placeable.Place(0, playerNumber, transform, lastMoveDirection);
                     }
@@ -181,7 +181,8 @@ public class PlayerController : MonoBehaviour
         {
             if ((Input.GetKey(KeyCode.U) || Input.GetKey(KeyCode.RightShift)) && Time.time >= nextFireTime)
             {
-                FireProjectile();
+                //FireProjectile();
+                animator.SetTrigger("AttackTrigger");
                 nextFireTime = Time.time + fireRate;
             }
 
@@ -191,7 +192,7 @@ public class PlayerController : MonoBehaviour
                 {
                     // Debug.Log("tag: " + placeable.tag);
                     // Debug.Log("is in barricade zone: " + InValidBarricadeBuildZone());
-                    if (placeable.CompareTag("Barricade") && InValidBarricadeBuildZone())
+                    if (placeable.CompareTag("Wall") && InValidBarricadeBuildZone())
                     {
                         placeable.Place(0, playerNumber, transform, lastMoveDirection);
                     }
@@ -233,6 +234,14 @@ public class PlayerController : MonoBehaviour
                 horizontalInput = Input.GetAxis("HorizontalP2Arrows");
                 verticalInput = Input.GetAxis("VerticalP2Arrows");
                 Vector2 moveInputArrows = new Vector2(horizontalInput, verticalInput);
+                if (moveInputArrows.x > 0.01f)
+                {
+                    spriteRenderer.flipX = false; // Facing right
+                }
+                else if (moveInputArrows.x < -0.01f)
+                {
+                    spriteRenderer.flipX = true; // Facing left
+                }
 
                 if (moveInputArrows.sqrMagnitude > 0.001f)
                 {
@@ -305,7 +314,7 @@ public class PlayerController : MonoBehaviour
     {
         if (goldAmount > playerGold)
         {
-            Debug.LogError("Insufficient gold to deduct.");
+            Debug.Log("Insufficient gold to deduct.");
             return false;
         }
         playerGold -= goldAmount;

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7572963498886404388}
   - component: {fileID: -537335262504383713}
   - component: {fileID: 1155757126075389683}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Fence_top
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -78,7 +78,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 19
+  m_SortingOrder: 20
   m_Sprite: {fileID: -3309781605116015348, guid: 6f218308afc13a84cb81066948668af8, type: 3}
   m_Color: {r: 1, g: 0.7529412, b: 0.5137255, a: 1}
   m_FlipX: 0
@@ -124,7 +124,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.01605171, y: 0.0030538887}
+  m_Offset: {x: -0.00069027394, y: 0.0013313293}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -134,7 +134,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.6986047, y: 0.33375153}
+  m_Size: {x: 0.29803747, y: 0.33375156}
   m_EdgeRadius: 0
 --- !u!50 &-537335262504383713
 Rigidbody2D:
@@ -177,6 +177,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 2819594338390225035}
   direction: {x: 0, y: 0}
-  health: 10
+  health: 50
   barricadePrefabTop: {fileID: 2819594338390225035}
   barricadePrefabSide: {fileID: 2819594338390225035, guid: 6efd5dcb198f65d45b4aa63adbccb506, type: 3}
+  goldCost: 25

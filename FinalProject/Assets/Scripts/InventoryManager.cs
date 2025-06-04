@@ -1,9 +1,17 @@
 using UnityEngine.UI;
 using UnityEngine;
+using TMPro;
 
 public class InventoryManager : MonoBehaviour
 {
     GameObject[] inv = { null, null, null, null, null };
+    TextMeshProUGUI costText;
+
+    void Start()
+    {
+        costText = GameObject.Find("P" + gameObject.GetComponent<PlayerController>().playerNumber + "CostText").GetComponent<TextMeshProUGUI>();
+        costText.gameObject.SetActive(false);
+    }
 
     public bool AddItem(int playerNumber, GameObject item)
     {
@@ -38,20 +46,12 @@ public class InventoryManager : MonoBehaviour
 
             if (placeable != null) // is this prefab a Placeable?
             {
-                for (int i = 0; i < inv.Length; i++) // turn other BGs white so only one is yellow at a time
-                {
-                    GameObject otherInvBG = GameObject.Find("P" + playerNumber + "ItemBG" + i);
-                    Color newColor;
-
-                    if (ColorUtility.TryParseHtmlString("#D1D1D1", out newColor)) {
-                        otherInvBG.GetComponent<Image>().color = newColor;
-                    }
-                }
-                
+                DeselectItem(playerNumber);
                 GameObject invBG = GameObject.Find("P" + playerNumber + "ItemBG" + index);
                 invBG.GetComponent<Image>().color = Color.yellow;
                 gameObject.GetComponent<PlayerController>().placeable = placeable; // change equipped Placeable
-                Debug.Log("selected " + gameObject.GetComponent<PlayerController>().placeable.name); // DELETE
+                costText.gameObject.SetActive(true);
+                costText.text = "Cost: " + placeable.goldCost;
             }
             else
             {
@@ -60,7 +60,24 @@ public class InventoryManager : MonoBehaviour
         }
         else
         {
+            DeselectItem(playerNumber);
             Debug.Log("Empty slot");
         }
+    }
+
+    private void DeselectItem(int playerNumber)
+    {
+        for (int i = 0; i < inv.Length; i++) // turn other BGs white so only one is yellow at a time
+        {
+            GameObject otherInvBG = GameObject.Find("P" + playerNumber + "ItemBG" + i);
+            Color newColor;
+
+            if (ColorUtility.TryParseHtmlString("#D1D1D1", out newColor))
+            {
+                otherInvBG.GetComponent<Image>().color = newColor;
+            }
+        }
+
+        gameObject.GetComponent<PlayerController>().placeable = null; 
     }
 }

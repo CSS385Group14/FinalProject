@@ -85,7 +85,7 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 0
+  - time: 0.083333336
     functionName: DealDamage
     data: 
     objectReferenceParameter: {fileID: 11500000, guid: d65d777e0edd5d04a857810430e98e2d, type: 3}

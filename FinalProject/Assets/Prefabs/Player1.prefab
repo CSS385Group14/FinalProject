@@ -63,7 +63,7 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -323,6 +323,7 @@ MonoBehaviour:
   weaponProjectileSpeed: 20
   xBound: 22.08901
   yBound: 12.305
+  validBarricadeBuildZoneCount: 0
   playerNumber: 1
   placeable: {fileID: 0}
 --- !u!58 &7510354920702090212
@@ -355,7 +356,7 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -438,3 +439,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiYOffset: -2
+  mainCamera: {fileID: 1591846639036197571, guid: 47bba67189506e14d81b9393d6279993, type: 3}

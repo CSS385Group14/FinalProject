@@ -18,6 +18,7 @@ public class EnemyLv3 : BaseEnemy
     private bool isFacingRight = true;
     private Vector3 originalFirePointLocalPos;
     private bool wasAttackingLastFrame = false;
+    private GameObject defense;
 
     protected override void Start()
     {
@@ -28,6 +29,7 @@ public class EnemyLv3 : BaseEnemy
         movement = GetComponent<EnemyMovement>();
         gameManager = GameObject.Find("GameManager")?.GetComponent<GameManager>();
         tower = GameObject.Find("Tower");
+        defense = GameObject.Find("DefenseTower");
 
         nextFireTime = Time.time;
         movement.SetStats(statsSO);
@@ -68,16 +70,34 @@ public class EnemyLv3 : BaseEnemy
         float distToP1 = player1 ? Vector2.Distance(transform.position, player1.transform.position) : Mathf.Infinity;
         float distToP2 = player2 ? Vector2.Distance(transform.position, player2.transform.position) : Mathf.Infinity;
         float distToTower = Vector2.Distance(transform.position, tower.transform.position);
-
+      
         bool inRangeP1 = distToP1 <= statsSO.detectionRangePlayer && Mathf.Abs(transform.position.y - player1.transform.position.y) < 1.5f;
         bool inRangeP2 = player2 && distToP2 <= statsSO.detectionRangePlayer && Mathf.Abs(transform.position.y - player2.transform.position.y) < 1.5f;
         bool inRangeTower = distToTower <= statsSO.detectionRangeTower;
 
-        bool targetInRange = inRangeTower || (inRangeP1 && !isPlayer1Dead) || (inRangeP2 && !isPlayer2Dead);
+        GameObject[] defenses = GameObject.FindGameObjectsWithTag("Defense");
+        GameObject closestDefense = null;
+        float closestDistDefense = Mathf.Infinity;
+        foreach (GameObject def in defenses)
+        {
+            float dist = Vector2.Distance(transform.position, def.transform.position);
+            if (dist < closestDistDefense && dist <= statsSO.detectionRangeDefense)
+            {
+                closestDefense = def;
+                closestDistDefense = dist;
+            }
+        }
+        bool inRangeDefense = closestDefense != null;
+        bool targetInRange = inRangeDefense || inRangeTower || (inRangeP1 && !isPlayer1Dead) || (inRangeP2 && !isPlayer2Dead);
         movement?.StopMovement(targetInRange);
         movement.lockedInCombat = targetInRange;
 
-        if (inRangeTower)
+        if (inRangeDefense)
+        {
+            SetTarget(closestDefense);
+            TryShoot(closestDefense);
+        }
+        else if (inRangeTower)
         {
             SetTarget(tower);
             TryShoot(tower);
@@ -96,6 +116,7 @@ public class EnemyLv3 : BaseEnemy
         {
             currentTarget = null;
         }
+
         HandleFacingDirection();
     }
     private void HandleFacingDirection()

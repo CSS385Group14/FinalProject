@@ -21,6 +21,10 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private float enemiesPerSecond = 0.5f;
     [SerializeField] private float timeBetweenWaves = 5f;
     [SerializeField] private float difficultyScalingFactor = 0.75f;
+    [SerializeField] private TextMeshProUGUI nextWaveTimerText;
+    private float timeUntilNextWave;
+    private bool countingDownNextWave;
+
 
     [Header("Events")]
     public static UnityEvent onEnemyDestroy = new UnityEvent();
@@ -35,7 +39,7 @@ public class EnemySpawner : MonoBehaviour
     private GameObject player1;
     private GameObject player2;
     private GameObject tower;
-
+    private GameObject defense;
     private Dictionary<int, int> enemiesToSpawnPerLevel = new Dictionary<int, int>();
 
     private void Awake()
@@ -43,21 +47,24 @@ public class EnemySpawner : MonoBehaviour
         onEnemyDestroy.AddListener(EnemyDestroyed);
     }
 
-    public void SetTargets(GameObject p1, GameObject p2, GameObject tower)
+    public void SetTargets(GameObject p1, GameObject p2, GameObject tower, GameObject defense)
     {
         player1 = p1;
         player2 = p2;
         this.tower = tower;
+        this.defense = defense;
     }
 
     private IEnumerator StartWave()
     {
-        yield return new WaitForSeconds(timeBetweenWaves);
         isSpawning = true;
         CalculateEnemiesToSpawn();
         enemiesLeftToSpawn = TotalEnemiesToSpawn();
         UpdateUI();
+        yield return null; // Let the frame settle
     }
+
+
 
     private void EnemyDestroyed()
     {
@@ -136,8 +143,9 @@ public class EnemySpawner : MonoBehaviour
         isSpawning = false;
         timeSinceLastSpawn = 0f;
         currentWave++;
-        StartCoroutine(StartWave());
+        StartCoroutine(CountdownToNextWave());
     }
+
 
     private void UpdateUI()
     {
@@ -192,7 +200,7 @@ public class EnemySpawner : MonoBehaviour
         // Assign targets based on enemy level
         
         BaseEnemy enemy = enemyObj.GetComponent<BaseEnemy>();
-        if (enemy != null) enemy.SetTargets(player1, player2, tower);
+        if (enemy != null) enemy.SetTargets(player1, player2, tower, defense);
 
     }
 
@@ -229,4 +237,34 @@ public class EnemySpawner : MonoBehaviour
             gameStarted = false;
         }
     }
+
+    private void UpdateNextWaveTimerUI(float timeLeft)
+    {
+        if (nextWaveTimerText != null)
+        {
+            nextWaveTimerText.SetText(timeLeft.ToString("F1") + "s");
+        }
+    }
+    private IEnumerator CountdownToNextWave()
+    {
+        nextWaveTimerText.gameObject.SetActive(true);
+        countingDownNextWave = true;
+        timeUntilNextWave = timeBetweenWaves;
+
+        while (timeUntilNextWave > 0f)
+        {
+            UpdateNextWaveTimerUI(timeUntilNextWave);
+            yield return null;
+            timeUntilNextWave -= Time.deltaTime;
+        }
+
+        countingDownNextWave = false;
+        if (nextWaveTimerText != null)
+        {
+            nextWaveTimerText.SetText("");
+        }
+
+        StartCoroutine(StartWave());
+    }
+
 }

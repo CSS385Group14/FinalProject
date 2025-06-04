@@ -130,7 +130,7 @@ AnimationClip:
   - time: 0.8333333
     functionName: DealDamage
     data: 
-    objectReferenceParameter: {fileID: 0}
+    objectReferenceParameter: {fileID: 11500000, guid: 0e598466afc3f534e82e797524aa8145, type: 3}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0

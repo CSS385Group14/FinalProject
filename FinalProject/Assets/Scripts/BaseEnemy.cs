@@ -11,6 +11,7 @@ public class BaseEnemy : MonoBehaviour
     private GameObject player2;
     private GameObject tower;
     private GameObject currentTarget;
+    private GameObject defense;
     protected virtual void Start()
     {
         if (statsSO == null)
@@ -42,14 +43,16 @@ public class BaseEnemy : MonoBehaviour
     {
         Destroy(gameObject);
     }
-    
-    public void SetTargets(GameObject p1, GameObject p2, GameObject tower)
+
+    public void SetTargets(GameObject p1, GameObject p2, GameObject tower, GameObject defense)
     {
         player1 = p1;
         player2 = p2;
         this.tower = tower;
+        this.defense = defense;
     }
     protected void SetTargetToPlayer1() => currentTarget = player1;
     protected void SetTargetToPlayer2() => currentTarget = player2;
     protected void SetTargetToTower() => currentTarget = tower;
+    protected void SetTargetToDefense() => currentTarget = defense;
 }

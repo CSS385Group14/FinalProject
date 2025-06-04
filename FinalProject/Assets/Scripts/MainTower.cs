@@ -3,17 +3,18 @@ using UnityEngine.UI;
 
 public class MainTower : MonoBehaviour
 {
-    public int towerHP;
-    private GameManager gameManager;
-    public float towerCurrentHealth;
-    private Image towerHealthFillImage;
+    private int towerHP = 300;
+    [SerializeField]  private GameManager gameManager;
+    private float towerCurrentHealth = 0;
+    [SerializeField] private Image towerHealthFillImage;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        towerCurrentHealth = towerHP;
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         towerHealthFillImage = GameObject.Find("TowerHPBarFill").GetComponent<Image>();
-        towerCurrentHealth = towerHP;
+     
         UpdateHealthUI();
     }
 

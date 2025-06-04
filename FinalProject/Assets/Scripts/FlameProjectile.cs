@@ -46,5 +46,23 @@ public class FlameProjectile : MonoBehaviour
             }
             Destroy(gameObject, timeFire);
         }
+        else if (collision.CompareTag("Defense"))
+        {
+            DefenseTower defense = collision.GetComponent<DefenseTower>();
+            if (defense != null)
+            {
+                defense.TakeDamage(damage);
+            }
+            Destroy(gameObject, timeFire);
+        }
+        else if (collision.CompareTag("Wall"))
+        {
+            Barricade barricade = collision.GetComponent<Barricade>();
+            if (barricade != null)
+            {
+                barricade.TakeDamage(damage);
+            }
+            Destroy(gameObject, timeFire);
+        }
     }
 }

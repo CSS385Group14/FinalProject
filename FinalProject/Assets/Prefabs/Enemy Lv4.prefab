@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1939528870871761615}
   - component: {fileID: 3022099480231898969}
   - component: {fileID: -680469473208835585}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Enemy Lv4
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -187,7 +187,7 @@ MonoBehaviour:
   stuckTimeThreshold: 2
   wallLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
   downwardTeleportBoost: 0.5
 --- !u!61 &-680469473208835585
 BoxCollider2D:

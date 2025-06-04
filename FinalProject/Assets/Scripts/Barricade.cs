@@ -1,4 +1,4 @@
-// attach to LevelManager
+// attach to GameManager
 using UnityEngine;
 
 public class Barricade : Placeable
@@ -7,7 +7,11 @@ public class Barricade : Placeable
     public float health = 10;
     public GameObject barricadePrefabTop;
     public GameObject barricadePrefabSide;
-    public int goldCost = 25;
+
+    void Start()
+    {
+        goldCost = 25;       
+    }
 
     public override void Place(int selectionIndex, int playerNumber, Transform playerTransform, Vector2 lastMoveDirection) // usesless selectionIndex for now
     {
@@ -29,6 +33,30 @@ public class Barricade : Placeable
             {
                 Instantiate(barricadePrefabSide, playerTransform.position, barricadePrefabSide.transform.rotation);
             }
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        //Debug.LogError("COLIISONSD: " + collision.name);
+        if (collision.CompareTag("Player"))
+        {
+            //if (collision.name == "Player" + collision.GetComponent<PlayerController>().playerNumber + "(Clone)")
+            //{
+                collision.GetComponent<PlayerController>().validBarricadeBuildZoneCount--;
+            //}
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D collision)
+    {
+        //Debug.LogError("deCOLIISONSD: " + collision.name);
+        if (collision.CompareTag("Player"))
+        {
+            //if (collision.name == "Player" + collision.GetComponent<PlayerController>().playerNumber + "(Clone)")
+            //{
+                collision.GetComponent<PlayerController>().validBarricadeBuildZoneCount++;
+            //}
         }
     }
 

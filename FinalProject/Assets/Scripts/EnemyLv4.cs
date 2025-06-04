@@ -103,11 +103,28 @@ public class EnemyLv4 : BaseEnemy
         bool player1InRange = distanceToPlayer1 <= statsSO.detectionRangePlayer && Mathf.Abs(transform.position.y - player1.transform.position.y) < 1.5f;
         bool player2InRange = distanceToPlayer2 <= statsSO.detectionRangePlayer && Mathf.Abs(transform.position.y - player2.transform.position.y) < 1.5f;
 
-        bool anyTargetInRange = towerInRange || (player1InRange && !isPlayer1Dead) || (player2InRange && !isPlayer2Dead);
+        GameObject[] defenses = GameObject.FindGameObjectsWithTag("Defense");
+        GameObject closestDefense = null;
+        float closestDistDefense = Mathf.Infinity;
+        foreach (GameObject def in defenses)
+        {
+            float dist = Vector2.Distance(transform.position, def.transform.position);
+            if (dist < closestDistDefense && dist <= statsSO.detectionRangeDefense)
+            {
+                closestDefense = def;
+                closestDistDefense = dist;
+            }
+        }
+        bool inRangeDefense = closestDefense != null;
+        bool targetInRange = inRangeDefense || towerInRange || (player1InRange && !isPlayer1Dead) || (player2InRange && !isPlayer2Dead);
+        movement?.StopMovement(targetInRange);
+        movement.lockedInCombat = targetInRange;
 
-        movement?.StopMovement(anyTargetInRange);
-        movement.lockedInCombat = anyTargetInRange;
-
+        if (inRangeDefense)
+        {
+            base.SetTargetToDefense();
+            TryAttack(closestDefense);
+        }
         if (towerInRange)
         {
             base.SetTargetToTower();
@@ -195,8 +212,9 @@ public class EnemyLv4 : BaseEnemy
     {
         if (attackTarget == null) return;
 
-        PlayerController targetPlayer = currentTarget.GetComponent<PlayerController>();
-        MainTower targetTower = currentTarget.GetComponent<MainTower>();
+        PlayerController targetPlayer = attackTarget.GetComponent<PlayerController>();
+        MainTower targetTower = attackTarget.GetComponent<MainTower>();
+        DefenseTower targetDefense = attackTarget.GetComponent<DefenseTower>();
 
         if (targetPlayer != null && !targetPlayer.isDead)
         {
@@ -206,7 +224,12 @@ public class EnemyLv4 : BaseEnemy
         {
             targetTower.TakeDamage(statsSO.damageAmount);
         }
+        else if (targetDefense != null)
+        {
+            targetDefense.TakeDamage(statsSO.damageAmount);
+        }
     }
+
 
     private void HandleDeath()
     {

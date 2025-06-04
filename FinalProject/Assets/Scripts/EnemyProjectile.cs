@@ -45,5 +45,14 @@ public class EnemyProjectile : MonoBehaviour
             }
             Destroy(gameObject);
         }
+        else if (collision.CompareTag("Defense"))
+        {
+            DefenseTower defense = collision.GetComponent<DefenseTower>();
+            if (defense != null)
+            {
+                defense.TakeDamage(damage);
+            }
+            Destroy(gameObject);
+        }
     }
 }

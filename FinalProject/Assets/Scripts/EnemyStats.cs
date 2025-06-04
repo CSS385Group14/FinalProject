@@ -10,6 +10,7 @@ public class EnemyStats : ScriptableObject
     public int goldValue;
     public float detectionRangePlayer;
     public float detectionRangeTower;
+    public float detectionRangeDefense;
     public float moveSpeed;
     public float attackRange;
 }

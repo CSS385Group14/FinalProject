@@ -87,12 +87,30 @@ public class EnemyLv5 : BaseEnemy
         bool player2InRange = !isPlayer2Dead && distanceToPlayer2 <= statsSO.detectionRangePlayer &&
                               Mathf.Abs(transform.position.y - player2.transform.position.y) < 1.5f;
 
-        bool anyTargetInRange = towerInRange || player1InRange || player2InRange;
-        movement?.StopMovement(anyTargetInRange);
-        movement.lockedInCombat = anyTargetInRange;
+        GameObject[] defenses = GameObject.FindGameObjectsWithTag("Defense");
+        GameObject closestDefense = null;
+        float closestDistDefense = Mathf.Infinity;
+        foreach (GameObject def in defenses)
+        {
+            float dist = Vector2.Distance(transform.position, def.transform.position);
+            if (dist < closestDistDefense && dist <= statsSO.detectionRangeDefense)
+            {
+                closestDefense = def;
+                closestDistDefense = dist;
+            }
+        }
+        bool inRangeDefense = closestDefense != null;
+        bool targetInRange = inRangeDefense || towerInRange || (player1InRange && !isPlayer1Dead) || (player2InRange && !isPlayer2Dead);
+        movement?.StopMovement(targetInRange);
+        movement.lockedInCombat = targetInRange;
 
         // Ranged attacks
-        if (towerInRange)
+        if (inRangeDefense)
+        {
+            base.SetTargetToDefense();
+            TryShoot(closestDefense);
+        }
+        else if (towerInRange)
         {
             base.SetTargetToTower();
             TryShoot(tower);
@@ -341,6 +359,11 @@ public class EnemyLv5 : BaseEnemy
                 pc.TakeDamage((int)flameDamage);
                 
              
+            }
+            DefenseTower defense = collider.GetComponent<DefenseTower>();
+            if (defense != null) {
+                
+                defense.TakeDamage((int)flameDamage); 
             }
             
         }

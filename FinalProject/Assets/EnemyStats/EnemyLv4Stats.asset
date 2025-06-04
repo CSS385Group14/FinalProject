@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d899a007576e7284d8c87eac208f8517, type: 3}
   m_Name: EnemyLv4Stats
   m_EditorClassIdentifier: 
-  maxHealth: 700
+  maxHealth: 250
   damageAmount: 20
   attackRate: 1
-  xpValue: 300
-  goldValue: 200
+  xpValue: 50
+  goldValue: 35
   detectionRangePlayer: 0.5
   detectionRangeTower: 5
+  detectionRangeDefense: 0.5
   moveSpeed: 3
+  attackRange: 0

@@ -14,11 +14,70 @@ public class DefenseTower : Placeable
     public float fireRate = 1f;
     public float projectileSpeed = 10f;
     public int projectileDamage = 20;
-    public int goldCost = 100;
     private int playerNumber;
     private float fireCooldown;
-    private List<Transform> enemiesInRange = new List<Transform>();
     private SpriteRenderer sr;
+    private int currentHP;
+    private int maxHP = 100;
+
+    [Header("Detection Settings")]
+    public float detectionRange = 5f; // NEW: Range at which tower detects enemies
+    public LayerMask enemyLayer; // NEW: Assign this in the Inspector to "Enemy" layer
+
+    void Start()
+    {
+        sr = GetComponent<SpriteRenderer>();
+        currentHP = maxHP;
+        goldCost = 100;
+    }
+
+    void Update()
+    {
+        fireCooldown -= Time.deltaTime;
+
+        if (currentHP <= 0)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Transform target = FindClosestEnemy();
+        if (target != null && fireCooldown <= 0f)
+        {
+            FireAt(target);
+            fireCooldown = 1f / fireRate;
+        }
+    }
+
+    Transform FindClosestEnemy()
+    {
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, detectionRange, enemyLayer);
+        Transform closest = null;
+        float closestDistance = Mathf.Infinity;
+
+        foreach (Collider2D hit in hits)
+        {
+            float distance = Vector2.Distance(transform.position, hit.transform.position);
+            if (distance < closestDistance)
+            {
+                closestDistance = distance;
+                closest = hit.transform;
+            }
+        }
+
+        return closest;
+    }
+
+    void FireAt(Transform enemy)
+    {
+        GameObject instance = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
+
+        DefenseProjectile proj = instance.GetComponent<DefenseProjectile>();
+        proj.SetTarget(enemy);
+        proj.SetSpeed(projectileSpeed);
+        proj.SetDamage(projectileDamage);
+        proj.SetOwner(playerNumber);
+    }
 
     public override void Place(int selectionIndex, int playerNumber, Transform playerTransform, Vector2 lastMoveDirection)
     {
@@ -32,51 +91,6 @@ public class DefenseTower : Placeable
         }
     }
 
-    void Start()
-    {
-        sr = GetComponent<SpriteRenderer>();
-    }
-
-    void Update()
-    {
-        fireCooldown -= Time.deltaTime;
-
-        if (enemiesInRange.Count > 0 && fireCooldown <= 0f)
-        {
-            Transform target = enemiesInRange[0]; // grab the first enemy
-            FireAt(target);
-            fireCooldown = 1f / fireRate;
-        }
-    }
-
-    void FireAt(Transform enemy)
-    {
-        GameObject instance = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
-
-        // set parameters
-        DefenseProjectile proj = instance.GetComponent<DefenseProjectile>();
-        proj.SetTarget(enemy); // target enemy's location
-        proj.SetSpeed(projectileSpeed);
-        proj.SetDamage(projectileDamage);
-        proj.SetOwner(playerNumber);
-    }
-
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("Enemy"))
-        {
-            enemiesInRange.Add(other.transform);
-        }
-    }
-
-    void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.CompareTag("Enemy"))
-        {
-            enemiesInRange.Remove(other.transform);
-        }
-    }
-
     public void SetOwner(int playerNumber)
     {
         this.playerNumber = playerNumber;
@@ -84,36 +98,20 @@ public class DefenseTower : Placeable
 
     public void Upgrade()
     {
-        if (level == MAX_LEVEL) // do not allow upgrade at max level
-        {
-            return;
-        }
+        if (level == MAX_LEVEL) return;
 
         int playerNumberInRange = GetPlayerNumberInRange();
-        if (playerNumberInRange == -1)
-        {
-            return;
-        }
+        if (playerNumberInRange == -1) return;
 
-        // deduct gold, if player in range has enough
         if (!GameObject.Find("Player" + playerNumberInRange + "(Clone)").GetComponent<PlayerController>().DeductGold(upgradeCost))
-        {
             return;
-        }
 
         level++;
-
-        // change sprite
         sr.sprite = levelSprites[level - 2];
-
-        // improve stats
         fireRate += 0.5f;
         projectileDamage += 10;
         projectileSpeed += 5;
-
-        // increase upgrade cost
         upgradeCost += 100;
-
         ShowPopup("Upgraded!");
     }
 
@@ -144,8 +142,18 @@ public class DefenseTower : Placeable
             return closestPlayer.GetComponent<PlayerController>().playerNumber;
         }
 
-        // no player found
         return -1;
     }
 
+    public void TakeDamage(int damageTaken)
+    {
+        currentHP = Mathf.Max(currentHP - damageTaken, 0);
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        // Visualize detection range in the editor
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, detectionRange);
+    }
 }

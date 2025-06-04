@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -8225953085210214656}
   - component: {fileID: -3910384021440531278}
   - component: {fileID: -3164928885876565501}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Enemy Lv3
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -81,7 +81,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 20
+  m_SortingOrder: 21
   m_Sprite: {fileID: -5609690867295641496, guid: cc39fc3b9de01304daf8e2e01712dc96, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -180,8 +180,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: -9168491795570823353}
   attackCooldown: 0.2
-  towerDamageValue: 10
-  playerDamageValue: 5
 --- !u!95 &-3910384021440531278
 Animator:
   serializedVersion: 7
@@ -228,7 +226,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7176796620784267221}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Firepoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
