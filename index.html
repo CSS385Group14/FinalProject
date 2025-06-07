@@ -13,14 +13,19 @@
 
 				<!-- Header -->
 					<header id="header" class="reveal">
-						<a href="https://css385group14.github.io/FinalProject/" class="logo"><strong>Defense Together</strong> <span>by Team 14</span></a>
+						<a href="index.html" class="logo"><strong>Defend Together</strong> <span>by Team 14</span></a>
 						<nav>
-							<a href="#menu">Menu</a>
+							<a href="landing.html" class=""><span>Playtesting</span></a>
 						</nav>
 					</header>
 
 				<!-- Menu -->
-					
+					<nav id="menu">
+						<ul class="links">
+							<li><a href="index.html">Home</a></li>
+							<li><a href="landing.html">Playtesting</a></li>
+						</ul>
+					</nav>
 
 				<!-- Banner -->
 					<section id="banner" class="major" style="background-position: center 0px;">
@@ -52,9 +57,6 @@
 										various enemies. Inspired by tower defense games like BloonsTD and survival games like Zombie Estate, Defend 
 										Together tests your ability to make calculated decisions of fortification, combat, and finance in incrementally 
 										challenging waves. Like many classic co-op games, players can share one PC and one keyboard to join forces.</p>
-									<ul class="actions">
-										<li><a href="https://youtu.be/miS4-kzGHAk?si=bGKQiHSdFYv5GwtE" class="button next">Play Now</a></li>
-									</ul>
 								</div>
 							</section>
 
@@ -64,40 +66,176 @@
 									<header class="major">
 										<h2>Trailer</h2>
 									</header>
-									<!-- EMBEDDED VIDEO -->
+									<div class="video-container">
+									<iframe src="https://www.youtube.com/embed/G_X7IfOMlLI"
+											frameborder="0"
+											allowfullscreen>
+									</iframe>
+									</div>
 								</div>
 							</section>
 
 							<!-- Images -->
 							<section id="images">
-								<div class="inner">
-									<header class="major">
-										<h2>Images</h2>
-									</header>
-									<!-- EMBEDDED IMAGES -->
-								</div>
+							<div class="inner">
+								<header class="major">
+								<h2>Images</h2>
+								</header>
+									<div class="image-grid">
+									<img src="images/1.png" onclick="openFullscreen(this)">
+									<img src="images/2.png" onclick="openFullscreen(this)">
+									<img src="images/3.png" onclick="openFullscreen(this)">
+									<img src="images/4.png" onclick="openFullscreen(this)">
+									<img src="images/5.png" onclick="openFullscreen(this)">
+									<img src="images/6.png" onclick="openFullscreen(this)">
+									</div>
+								<dialog id="imgDialog" onclick="this.close()">
+								<img id="dialogImg" src="">
+								</dialog>
+							</div>
 							</section>
 
-							<!-- Credits -->
-							<section id="credits">
-								<div class="inner">
-									<header class="major">
-										<h2>Credits</h2>
-									</header>
-									<!-- WIDGETS? -->
+							<!-- Reflection -->
+							<section id="reflection">
+							<div class="inner">
+								<header class="major">
+								<h2>Team Reflection</h2>
+								</header>
+									As a team, we were able to rapidly polish the visuals of our game so that it went from looking like a barebones 
+									prototype to a well-developed game with consistent fantasy elements and a periodical setting. Our first prototype, 
+									alpha, and beta, were emphasized on the internal game mechanics, whereas now, our game has a fleshed out environment, 
+									UIs, item icons, and characters. By comparing our beta to our final version, the difference is like night and day.
+									If we had 2 more weeks to work on our game, our highest priority would be:
+									<h4></h4>
+									<ul>
+									<li>Adding more defense/weapon variation and unlockables</li>
+									<li>Creating a shop mechanic that will help the player progress through higher waves</li>
+									<li>Polishing current mechanics such as enemy behavior and defense placement</li>
+									</ul>
+
+							</div>
+							</section>
+
+							<!-- Presentables -->
+							<section id="presentables">
+							<div class="inner">
+								<header class="major">
+								<h2>Presentables</h2>
+								</header>
+								<div class="resources-grid">
+									<a href="https://docs.google.com/presentation/d/1jBU1gDNnzpQUIy983lbRNi-iJHStJqB8RSB0vKZVJh8/edit?usp=sharing" target="_blank" class="resource-panel">
+										<span class="resource-link">Game Tour</span>
+									</a>
+
+									<a href="https://docs.google.com/presentation/d/1gCw-DsoGtbc3ulfxI1lcgM9F7_XH986ACFLLqvVBvk0/edit?usp=sharing" target="_blank" class="resource-panel">
+										<span class="resource-link">Post-mortem Report</span>
+									</a>
 								</div>
+							</div>
 							</section>
 
 							<!-- Resources -->
 							<section id="resources">
 								<div class="inner">
 									<header class="major">
-										<h2>Resources</h2>
+									<h2>Resources</h2>
 									</header>
-									<!-- WIDGETS? -->
+									<div class="resources-grid">
+
+									<a href="https://craftpix.net/freebies/free-top-down-roguelike-game-kit-pixel-art/" target="_blank" class="resource-panel">
+										<span class="resource-link">Background and Walls</span>
+										<p class="author">by CraftPix</p>
+									</a>
+
+									<a href="https://craftpix.net/freebies/free-monster-enemy-sprites-for-tower-defense/?num=2&count=20&sq=enemy%20sprite&pos=1" target="_blank" class="resource-panel">
+										<span class="resource-link">Enemies – Bat</span>
+										<p class="author">by CraftPix</p>
+									</a>
+
+									<a href="https://craftpix.net/freebies/free-city-enemies-pixel-art-sprite-sheets/?num=1&count=479&sq=cyberpunk%20enemies&pos=9" target="_blank" class="resource-panel">
+										<span class="resource-link">Enemies – Robot</span>
+										<p class="author">by CraftPix</p>
+									</a>
+
+									<a href="https://craftpix.net/freebies/free-werewolf-sprite-sheets-pixel-art/" target="_blank" class="resource-panel">
+										<span class="resource-link">Enemies – Werewolf</span>
+										<p class="author">by CraftPix</p>
+									</a>
+
+									<a href="https://www.dafont.com/venice-classic.font?text=Defend+Together&back=bitmap" target="_blank" class="resource-panel">
+										<span class="resource-link">Fonts</span>
+										<p class="author">by dafont.com</p>
+									</a>
+
+									<a href="https://pixabay.com/users/floraphonic-38928062/" target="_blank" class="resource-panel">
+										<span class="resource-link">Level-up FX</span>
+										<p class="author">by Floraphonic (Pixabay)</p>
+									</a>
+
+									<a href="https://pixabay.com/music/acoustic-group-the-britons-127687/" target="_blank" class="resource-panel">
+										<span class="resource-link">Music</span>
+										<p class="author">by Pixabay</p>
+									</a>
+
+									<a href="https://craftpix.net/freebies/free-samurai-pixel-art-sprite-sheets/" target="_blank" class="resource-panel">
+										<span class="resource-link">Players</span>
+										<p class="author">by CraftPix</p>
+									</a>
+
+									<a href="https://pixabay.com/sound-effects/level-up-3-199576/" target="_blank" class="resource-panel">
+										<span class="resource-link">Upgrade FX</span>
+										<p class="author">by Pixabay</p>
+									</a>
+
+									<a href="https://wallpapers.com/wallpapers/dark-pixel-jxr9sa3gdswz4no7/download" target="_blank" class="resource-panel">
+										<span class="resource-link">Trailer Background</span>
+										<p class="author">via Wallpapers.com</p>
+									</a>
+
+									<a href="https://pixabay.com/music/ireland-medieval-music-irish-celtic-ireland-knight-king-queen-background-311693/" target="_blank" class="resource-panel">
+										<span class="resource-link">Trailer Music</span>
+										<p class="author">by Pixabay</p>
+									</a>
+
+									<a href="https://foozlecc.itch.io/spire-tower-pack-2" target="_blank" class="resource-panel">
+										<span class="resource-link">Turret</span>
+										<p class="author">by FoozleCC</p>
+									</a>
+
+									</div>
+								</div>
+								</section>
+
+								
+							<!-- Credits -->
+							<section id="credits">
+								<div class="inner">
+									<header class="major">
+									<h2>Credits</h2>
+									</header>
+									<div class="credits-grid">
+									<div class="credit-panel">
+										<h3>David K</h3>
+										<p>UI/UX Designer</p>
+										<p>Gameplay Systems Engineer</p>
+									</div>
+									<div class="credit-panel">
+										<h3>Eldana B</h3>
+										<p>Mechanics Designer</p>
+									</div>
+									<div class="credit-panel">
+										<h3>Hoang N</h3>
+										<p>Technical Animator</p>
+										<p>Gameplay Systems Engineer</p>
+									</div>
+									<div class="credit-panel">
+										<h3>Isaiah S</h3>
+										<p>Level Designer</p>
+										<p>Gameplay Systems Engineer</p>
+									</div>
+									</div>
 								</div>
 							</section>
-					</div>
 
 				<!-- Contact -->
 					<section id="contact">
@@ -131,17 +269,19 @@
 			<script src="./landing_files/browser.min.js.download"></script>
 			<script src="./landing_files/breakpoints.min.js.download"></script>
 			<script src="./landing_files/util.js.download"></script>
-			<script src="./landing_files/main.js.download"></script><nav id="menu"><div class="inner">
-						<ul class="links">
-							<li><a href="https://css385group14.github.io/FinalProject/index.html">Home</a></li>
-							<li><a href="https://css385group14.github.io/FinalProject/landing.html">Landing</a></li>
-							<li><a href="https://css385group14.github.io/FinalProject/generic.html">Generic</a></li>
-							<li><a href="https://css385group14.github.io/FinalProject/elements.html">Elements</a></li>
-						</ul>
-						<ul class="actions stacked">
-							<li><a href="https://css385group14.github.io/FinalProject/#" class="button primary fit">Get Started</a></li>
-						</ul>
-					</div><a class="close" href="#menu">Close</a></nav>
+			<script src="assets/js/main.js"></script>
+			<script>
+			const dialog = document.getElementById('imgDialog');
+			const dialogImg = document.getElementById('dialogImg');
 
-	
+			function openFullscreen(imgElement) {
+				dialogImg.src = imgElement.src;
+				dialog.showModal();
+			}
+
+			// Clear image when dialog is closed
+			dialog.addEventListener("close", () => {
+				dialogImg.src = "";
+			});
+			</script>
 </body></html>
